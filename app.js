@@ -11,13 +11,13 @@ const mongoose = require('mongoose');
 
 // CONNECT TO DB
 main()
-.then(() => 
-    console.log('Connected to db' ))
+.then(() => console.log('Connected to db' ))
 .catch(err => console.log(err));
 async function main() {
   await mongoose.connect(process.env.DATABASE);
 }
 
+// MIDLLWARES
 const app =express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
@@ -30,7 +30,7 @@ app.set('views', 'views')
 
 
 app.get('/', function(req, res){
-    res.send('Welcome');
+    res.render('index');
 })
 
 
@@ -44,7 +44,7 @@ app.get('/', function(req, res){
 
 
 
-
+// LISTENING
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`Server running at port ${port}`);
