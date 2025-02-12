@@ -27,14 +27,11 @@ app.set('views', 'views')
 
 
 
-
-
-app.get('/', function(req, res){
-    res.render('index');
-})
-
-
-
+//ROUTES
+const User = require('./routes/UserRoutes')
+const Admin = require('./routes/AdminRoutes')
+app.use('/', User)
+app.use('/admin', Admin)
 
 
 
