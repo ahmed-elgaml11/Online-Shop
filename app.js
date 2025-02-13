@@ -4,8 +4,9 @@ const path =require('path');
 const dotenv = require('dotenv');
 dotenv.config({path: path.join(__dirname, './config.env')})
 const mongoose = require('mongoose');
-
-
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('connect-flash');  
 
 
 
@@ -25,7 +26,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'imgs')));
 app.set('view engine', 'ejs');
 app.set('views', 'views')
-
+app.use(cookieParser('cookieSecret'));
+app.use(session({
+  secret: 'secretkey',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000*60*60*24*30 }, // month
+ }));
+app.use(flash())
 
 
 //ROUTES
