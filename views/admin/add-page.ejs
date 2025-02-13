@@ -1,0 +1,45 @@
+<%- include('../parts/Admin_header') %>
+<%- include('../parts/Admin_navbar') %>
+<div class="container mt-5">
+    <div class="col-md-8 mx-auto">
+        <!-- Card Container with Silver Background -->
+        <div class="card shadow-sm rounded-3" style="background-color: #dcdcdc; border: 1px solid #b0b0b0;">
+            <div class="card-body p-4">
+
+                <!-- Full-Width Title Box with Silver Color -->
+                <div class="text-center mb-4">
+                    <div class="px-4 py-3 rounded-2" style="background-color: #c0c0c0; border: 1px solid #a0a0a0;">
+                        <h2 class="mb-0 text-dark">Add New Page</h2>
+                    </div>
+                </div>
+
+                <!-- Back Button -->
+                <div class="text-end mb-3">
+                    <a href="/admin/pages" class="btn btn-outline-secondary">← Back To All Pages</a>
+                </div>
+
+                <!-- Form -->
+                <form action="/admin/add-page" method="post">
+                    <!-- Title Field -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label"><h4>Title</h4></label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+                    </div>
+
+                    <!-- Content Field -->
+                    <div class="mb-3">
+                        <label for="content" class="form-label"><h4>Content</h4></label>
+                        <textarea class="form-control" id="content" name="content" rows="8" placeholder="Enter content"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button class="btn btn-dark px-4" type="submit">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../parts/Admin_footer') %>

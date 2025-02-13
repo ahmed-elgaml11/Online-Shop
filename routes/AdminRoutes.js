@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/pages', (req, res) => {
     res.send('ADMIN AREA');
 })
-router.get('')
 router.get('/add-page', (req, res) => {
     res.render('admin/add-page')
+})
+router.post('/add-page', (req, res) => {
+
 })
 
 
