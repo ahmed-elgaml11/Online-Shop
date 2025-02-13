@@ -5,6 +5,7 @@ const ValidatePageSchema = (req, res, next) => {
         req.flash('msg',errors.array());
         console.log('Validation error ', errors.array())
         res.redirect('/admin/add-page')
+        return;
     }
     next();
 }

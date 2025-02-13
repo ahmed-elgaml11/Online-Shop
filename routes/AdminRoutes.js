@@ -1,9 +1,11 @@
 const express = require('express');
 const PageSchema = require('../schema/NewPageSchema');
 const ValidatePageSchema= require('../midlewares/ValidateNewPage');
+const adminservices= require('../services/adminServices') 
 const router = express.Router();
 
 router.get('/pages', (req, res) => {
+    const success = req.flash('success');
     res.send('ADMIN AREA');
 })
 router.get('/add-page', (req, res) => {
@@ -13,10 +15,10 @@ router.get('/add-page', (req, res) => {
     })
 })
 router.post('/add-page', PageSchema, ValidatePageSchema, 
-    (req, res) => {
         // add to db
-
-})
+        adminservices.add_page
+    
+)
 
 
 
