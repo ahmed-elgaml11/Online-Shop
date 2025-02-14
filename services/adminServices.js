@@ -13,6 +13,21 @@ const add_page = async (req, res) => {
     }
 }
 
+const get_pages = async (req, res, next) => {
+    try{
+        const pages = await Page.find({}).sort({sorting: 1}).lean();
+        res.local.pages = pages;
+        next();
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).send('Server Error')
+
+    }
+}
+
+
 module.exports = {
-    add_page
+    add_page,
+    get_pages
 }

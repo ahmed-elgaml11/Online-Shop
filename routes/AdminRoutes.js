@@ -4,9 +4,8 @@ const ValidatePageSchema= require('../midlewares/ValidateNewPage');
 const adminservices= require('../services/adminServices') 
 const router = express.Router();
 
-router.get('/pages', (req, res) => {
-    const success = req.flash('success');
-    res.send('ADMIN AREA');
+router.get('/pages', adminservices.get_pages , (req, res) => {
+    res.render('admin/pages',{pages: res.locals.pages})
 })
 router.get('/add-page', (req, res) => {
     const errs =req.flash('msg')
