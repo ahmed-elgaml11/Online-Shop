@@ -1,33 +1,16 @@
 const Page = require('../models/pages')
-const add_page = async (req, res) => {
-    try{
-        const page = new Page(req.body);
+const addPage = async (body) => {
+        const page = new Page(body);
         await page.save();
-        req.flash('success','the page added successfully');
-        res.redirect('/admin/pages');
-
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).send('Server Error')
-    }
+        return page;
 }
 
-const get_pages = async (req, res, next) => {
-    try{
-        const pages = await Page.find({}).sort({sorting: 1}).lean();
-        res.local.pages = pages;
-        next();
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).send('Server Error')
-
-    }
+const getPages = async (req, res, next) => {
+        const pages = Page.find({}).sort({sorting: 1}).lean();
 }
 
 
 module.exports = {
-    add_page,
-    get_pages
+    addPage,
+    getPages
 }

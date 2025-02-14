@@ -33,7 +33,11 @@ app.use(session({
   saveUninitialized: false,
   cookie: { maxAge: 1000*60*60*24*30 }, // month
  }));
-app.use(flash())
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.messages = req.flash();
+  next();
+});
 
 
 //ROUTES

@@ -1,0 +1,36 @@
+<%- include('../parts/Admin_header') %>
+<%- include('../parts/Admin_navbar') %>
+
+<h2 class="page-title">Pages</h2>
+<a class="btn btn-primary" href="/admin/add-page" role="button">Add New Page</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-secondary">
+        <tr>
+            <th>Title</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (pages.length > 0) { %>
+            <% pages.forEach(page => { %>
+                <tr>
+                    <td><%= page.title %></td>
+                    <td><a href="/admin/pages/edit/<%= page._id %>" class="btn btn-warning">Edit</a></td>
+                    <td>
+                        <form action="/admin/pages/delete/<%= page._id %>" method="POST" onsubmit="return confirm('Are you sure?');">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        <% } else { %>
+            <tr>
+                <td colspan="3" class="text-center">No pages found</td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<%- include('../parts/Admin_footer') %>

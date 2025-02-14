@@ -5,19 +5,33 @@ const adminservices= require('../services/adminServices')
 const router = express.Router();
 
 router.get('/pages', adminservices.get_pages , (req, res) => {
-    res.render('admin/pages',{pages: res.locals.pages})
+    res.render('admin/pages')
 })
+
 router.get('/add-page', (req, res) => {
-    const errs =req.flash('msg')
-    res.render('admin/add-page',{
-        errs
-    })
+    res.render('admin/add-page')
 })
-router.post('/add-page', PageSchema, ValidatePageSchema, 
-        // add to db
-        adminservices.add_page
-    
-)
+router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
+    const content = req.body.content
+    const title = req.body.title
+    const sorting = 100;
+    try{
+        await adminservices.addPage({
+            title,
+            content,
+            sorting
+        });    
+        req.flash('success','the page added successfully');
+        res.redirect('/admin/pages');
+
+    }
+    catch(error){
+        console.log(error);
+        req.flash('error','there is something wrong with saving the page');
+        res.redirect('/admin/pages');
+
+    }
+})
 
 
 
