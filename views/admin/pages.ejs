@@ -1,36 +1,79 @@
 <%- include('../parts/Admin_header') %>
 <%- include('../parts/Admin_navbar') %>
 
-<h2 class="page-title">Pages</h2>
-<a class="btn btn-primary" href="/admin/add-page" role="button">Add New Page</a>
+<div class="container mt-4">
+    <!-- Flash Messages -->
+    <% if (success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
 
-<table class="table table-bordered table-striped">
-    <thead class="table-secondary">
-        <tr>
-            <th>Title</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% if (pages.length > 0) { %>
-            <% pages.forEach(page => { %>
+
+    <!-- Page Title -->
+    <h2 class="page-title text-center my-4">📄 Manage Pages</h2>
+
+    <!-- Add Page Button -->
+    <div class="text-center mb-4">
+        <a class="btn btn-success btn-lg" href="/admin/add-page">
+            <i class="fas fa-plus-circle"></i> Add New Page
+        </a>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered shadow-sm custom-silver-table">
+            <thead class="table-dark">
                 <tr>
-                    <td><%= page.title %></td>
-                    <td><a href="/admin/pages/edit/<%= page._id %>" class="btn btn-warning">Edit</a></td>
-                    <td>
-                        <form action="/admin/pages/delete/<%= page._id %>" method="POST" onsubmit="return confirm('Are you sure?');">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
+                    <th>📌 Title</th>
+                    <th>✏️ Edit</th>
+                    <th>🗑️ Delete</th>
                 </tr>
-            <% }); %>
-        <% } else { %>
-            <tr>
-                <td colspan="3" class="text-center">No pages found</td>
-            </tr>
-        <% } %>
-    </tbody>
-</table>
+            </thead>
+            <tbody>
+                <% if (pages.length > 0) { %>
+                    <% pages.forEach(page => { %>
+                        <tr>
+                            <td><strong><%= page.title %></strong></td>
+                            <td>
+                                <a href="/admin/edit/<%= page._id %>" class="btn btn-warning btn-sm">
+                                         Edit
+                                </a>
+                            </td>
+                            <% if(page.title == 'Home') {%>
+                                <td></td>
+                            <% } else { %>
+                            <td>
+                                <form action="/admin/delete/<%= page._id %>" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this page?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                            <% } %>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">No pages found 😞</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Flash Message Auto-Close -->
+<script>
+    setTimeout(() => {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 500);
+        });
+    }, 3000);
+</script>
 
 <%- include('../parts/Admin_footer') %>

@@ -4,8 +4,9 @@ const ValidatePageSchema= require('../midlewares/ValidateNewPage');
 const adminservices= require('../services/adminServices') 
 const router = express.Router();
 
-router.get('/pages', adminservices.get_pages , (req, res) => {
-    res.render('admin/pages')
+router.get('/pages' ,async  (req, res) => {
+    const allPages = await adminservices.getPages();
+    res.render('admin/pages',{pages: allPages})
 })
 
 router.get('/add-page', (req, res) => {
@@ -14,7 +15,7 @@ router.get('/add-page', (req, res) => {
 router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
     const content = req.body.content
     const title = req.body.title
-    const sorting = 100;
+    const sorting = 0;
     try{
         await adminservices.addPage({
             title,
@@ -23,14 +24,14 @@ router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
         });    
         req.flash('success','the page added successfully');
         res.redirect('/admin/pages');
-
     }
     catch(error){
         console.log(error);
         req.flash('error','there is something wrong with saving the page');
-        res.redirect('/admin/pages');
-
+        res.redirect('/admin/add-page')
     }
+    
+
 })
 
 

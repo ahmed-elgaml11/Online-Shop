@@ -5,8 +5,8 @@ const addPage = async (body) => {
         return page;
 }
 
-const getPages = async (req, res, next) => {
-        const pages = Page.find({}).sort({sorting: 1}).lean();
+const getPages = async () => {
+       return Page.find({}).sort({sorting: 1}).lean();
 }
 
 

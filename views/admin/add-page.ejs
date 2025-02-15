@@ -1,45 +1,76 @@
 <%- include('../parts/Admin_header') %>
 <%- include('../parts/Admin_navbar') %>
-<div class="container mt-5">
+
+<div class="container mt-4">
+
+    <!-- Flash Messages (Error) -->
+    <% if (error && error.length > 0) { %>
+        <div class="col-md-6 mx-auto">
+            <% error.forEach(function(err) { %>
+                <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
+                    <i class="fas fa-exclamation-circle"></i> <%= err.msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+
+    <!-- Form Card -->
     <div class="col-md-8 mx-auto">
-        <!-- Card Container with Silver Background -->
-        <div class="card shadow-sm rounded-3" style="background-color: #dcdcdc; border: 1px solid #b0b0b0;">
+        <div class="card shadow-lg border-0 rounded-4" style="background: linear-gradient(to bottom, #f8f9fa, #e9ecef);">
             <div class="card-body p-4">
 
-                <!-- Full-Width Title Box with Silver Color -->
+                <!-- Title Box -->
                 <div class="text-center mb-4">
-                    <div class="px-4 py-3 rounded-2" style="background-color: #c0c0c0; border: 1px solid #a0a0a0;">
-                        <h2 class="mb-0 text-dark">Add New Page</h2>
+                    <div class="py-3 rounded-3 shadow-sm text-white" style="background: #495057;">
+                        <h2 class="mb-0">📝 Add New Page</h2>
                     </div>
                 </div>
 
                 <!-- Back Button -->
-                <div class="text-end mb-3">
-                    <a href="/admin/pages" class="btn btn-outline-secondary">← Back To All Pages</a>
+                <div class="text-start mb-3">
+                    <a href="/admin/pages" class="btn btn-outline-dark">
+                        <i class="fas fa-arrow-left"></i> Back To All Pages
+                    </a>
                 </div>
 
                 <!-- Form -->
                 <form action="/admin/add-page" method="post">
+                    
                     <!-- Title Field -->
                     <div class="mb-3">
-                        <label for="title" class="form-label"><h4>Title</h4></label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+                        <label for="title" class="form-label"><h5>📌 Title</h5></label>
+                        <input type="text" class="form-control shadow-sm" id="title" name="title" placeholder="Enter title" required>
                     </div>
 
                     <!-- Content Field -->
                     <div class="mb-3">
-                        <label for="content" class="form-label"><h4>Content</h4></label>
-                        <textarea class="form-control" id="content" name="content" rows="8" placeholder="Enter content"></textarea>
+                        <label for="content" class="form-label"><h5>📝 Content</h5></label>
+                        <textarea class="form-control shadow-sm" id="content" name="content" rows="6" placeholder="Enter content" required></textarea>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="text-center">
-                        <button class="btn btn-dark px-4" type="submit">Submit</button>
+                        <button class="btn btn-dark px-5 py-2 fw-bold" type="submit">
+                            <i class="fas fa-save"></i> Save Page
+                        </button>
                     </div>
                 </form>
 
             </div>
         </div>
     </div>
+
 </div>
+
+<!-- Auto-Close Flash Messages -->
+<script>
+    setTimeout(() => {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.classList.add('fade-out');
+        });
+    }, 3000);
+</script>
+
 <%- include('../parts/Admin_footer') %>
