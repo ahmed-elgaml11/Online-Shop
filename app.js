@@ -42,8 +42,8 @@ app.use((req, res, next) => {
 
 
 //ROUTES
-const User = require('./routes/UserRoutes')
-const Admin = require('./routes/AdminRoutes')
+const User = require('./routes/UserRoutes');
+const Admin = require('./routes/adminRoutes');
 app.use('/', User)
 app.use('/admin', Admin)
 

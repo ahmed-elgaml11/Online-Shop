@@ -1,6 +1,6 @@
 const express = require('express');
-const PageSchema = require('../schema/NewPageSchema');
-const ValidatePageSchema= require('../midlewares/ValidateNewPage');
+const PageSchema = require('../schema/newPageSchema');
+const ValidatePageSchema= require('../midlewares/validateNewPage');
 const adminservices= require('../services/adminServices') 
 const router = express.Router();
 
@@ -15,12 +15,10 @@ router.get('/add-page', (req, res) => {
 router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
     const content = req.body.content
     const title = req.body.title
-    const sorting = 0;
     try{
         await adminservices.addPage({
             title,
-            content,
-            sorting
+            content
         });    
         req.flash('success','the page added successfully');
         res.redirect('/admin/pages');

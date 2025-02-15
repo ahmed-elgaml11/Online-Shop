@@ -11,10 +11,6 @@ const pageSchema = new Schema({
         type: String,
         required: true
     },
-    sorting: {
-        type: Number,
-
-    }
 },{ timestamps: true })
 const Page = mongoose.model('Page',pageSchema)
 

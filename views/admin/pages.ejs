@@ -20,6 +20,7 @@
             <i class="fas fa-plus-circle"></i> Add New Page
         </a>
     </div>
+    
 
     <!-- Table -->
     <div class="table-responsive">
@@ -35,7 +36,12 @@
                 <% if (pages.length > 0) { %>
                     <% pages.forEach(page => { %>
                         <tr>
-                            <td><strong><%= page.title %></strong></td>
+                            <td>
+                                <a href="/admin/details/<%= page._id %>" class="text-decoration-none fw-bold text-primary">
+                                    <strong><%= page.title %></strong>
+                                </a>
+                                                            </td>
+
                             <td>
                                 <a href="/admin/edit/<%= page._id %>" class="btn btn-warning btn-sm">
                                          Edit
