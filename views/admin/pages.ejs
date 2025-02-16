@@ -9,7 +9,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <% } %>
-
+    <% if (error && error.length > 0) { %>
+        <div class="col-md-6 mx-auto">
+            <% error.forEach(function(err) { %>
+                <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
+                    <i class="fas fa-exclamation-circle"></i> <%= err.msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
 
     <!-- Page Title -->
     <h2 class="page-title text-center my-4">📄 Manage Pages</h2>
@@ -37,13 +46,13 @@
                     <% pages.forEach(page => { %>
                         <tr>
                             <td>
-                                <a href="/admin/details/<%= page._id %>" class="text-decoration-none fw-bold text-primary">
+                                <a href="/admin/details/<%= page.slug %>" class="text-decoration-none fw-bold text-primary">
                                     <strong><%= page.title %></strong>
                                 </a>
                                                             </td>
 
                             <td>
-                                <a href="/admin/edit/<%= page._id %>" class="btn btn-warning btn-sm">
+                                <a href="/admin/edit/<%= page.slug %>" class="btn btn-warning btn-sm">
                                          Edit
                                 </a>
                             </td>
@@ -51,7 +60,7 @@
                                 <td></td>
                             <% } else { %>
                             <td>
-                                <form action="/admin/delete/<%= page._id %>" method="POST"
+                                <form action="/admin/delete/<%= page.slug %>" method="POST"
                                     onsubmit="return confirm('Are you sure you want to delete this page?');">
                                     <button type="submit" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash"></i> Delete

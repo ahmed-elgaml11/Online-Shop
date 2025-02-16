@@ -9,8 +9,13 @@ const getPages = async () => {
        return Page.find({}).lean();
 }
 
+const findPage = async(slug) => {
+    const page = await Page.findOne({ slug: slug })
+    return page
+}
 
 module.exports = {
     addPage,
-    getPages
+    getPages, 
+    findPage
 }

@@ -28,9 +28,29 @@ router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
         req.flash('error','there is something wrong with saving the page');
         res.redirect('/admin/add-page')
     }
-    
+})
+
+router.get('/edit/:slug', async (req, res) => {
+    const slug = req.params.slug;
+    console.log(slug)
+    try{
+        const page = await adminservices.findPage(slug);
+        if (!page) {
+            req.flash('error', 'Page not found.');
+            return res.redirect('/admin/pages');
+        }
+        res.render('admin/edit-page', {page})    
+    }
+    catch(error){
+        console.log(error);
+        req.flash('error','there is something wrong with finding the page');
+        res.redirect('/admin/pages')
+    }
 
 })
+
+
+
 
 
 
