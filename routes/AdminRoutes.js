@@ -1,6 +1,7 @@
 const express = require('express');
-const PageSchema = require('../schema/newPageSchema');
-const ValidatePageSchema= require('../midlewares/validateNewPage');
+const PageSchema = require('../schema/pageSchema');
+const ValidatePageSchema= require('../midlewares/validatePage');
+const ValidateUpdatedPage = require('../midlewares/validateUpdatedPage');
 const adminservices= require('../services/adminServices') 
 const router = express.Router();
 
@@ -30,9 +31,8 @@ router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
     }
 })
 
-router.get('/edit/:slug', async (req, res) => {
+router.get('/edit-page/:slug', async (req, res) => {
     const slug = req.params.slug;
-    console.log(slug)
     try{
         const page = await adminservices.findPage(slug);
         if (!page) {
@@ -47,6 +47,29 @@ router.get('/edit/:slug', async (req, res) => {
         res.redirect('/admin/pages')
     }
 
+})
+
+router.post('/edit-page/:slug', PageSchema, ValidateUpdatedPage, async (req, res) => {
+    const slug = req.params.slug;
+    const data ={
+        title: req.body.title,
+        content: req.body.content,
+    }
+    try{
+        const page = await adminservices.findPage(slug);
+        if (!page) {
+            req.flash('error', 'Page not found.');
+            return res.redirect('/admin/pages');
+        }
+        await adminservices.updatePage(slug, data)
+        req.flash('success','the page updated successfully');
+        res.redirect('/admin/pages')
+    }
+    catch(error){
+        req.flash('error','there is something wrong with updating the page')
+        res.redirect(`/admin/edit-page/${slug}`)
+    }
+    
 })
 
 

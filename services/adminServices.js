@@ -13,9 +13,13 @@ const findPage = async(slug) => {
     const page = await Page.findOne({ slug: slug })
     return page
 }
-
+const updatePage = async(slug, data) => {
+    return Page.findOneAndUpdate({ slug: slug }, data)
+    
+}
 module.exports = {
     addPage,
     getPages, 
-    findPage
+    findPage,
+    updatePage  
 }

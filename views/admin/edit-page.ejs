@@ -1,5 +1,18 @@
 <%- include('../parts/Admin_header') %>
-<%- include('../parts/Admin_navbar') %>
+<%- include('../parts/Admin_navbar') %> 
+<br> <br>
+
+<% if (error && error.length > 0) { %>
+    <div class="col-md-6 mx-auto">
+        <% error.forEach(function(err) { %>
+            <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
+                <i class="fas fa-exclamation-circle"></i> <%= err.msg %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% }); %>
+    </div>
+    <% } %>
+
 <div class="col-md-8 mx-auto">
     <div class="card shadow-lg border-0 rounded-4" style="background: linear-gradient(to bottom, #f8f9fa, #e9ecef);">
         <div class="card-body p-4">
