@@ -63,7 +63,7 @@ router.post('/edit-page/:slug', PageSchema, ValidateUpdatedPage, async (req, res
         }
         if(page.title.toLowerCase() === 'home' && data.title.toLowerCase() !== 'home'){
             req.flash('error', 'Home page cannot be renamed.');
-            return res.render('admin/edit-pag', {page})
+            return res.render('admin/edit-page', {page})
         }
 
 
