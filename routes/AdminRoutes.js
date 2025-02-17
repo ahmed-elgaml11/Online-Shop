@@ -61,6 +61,12 @@ router.post('/edit-page/:slug', PageSchema, ValidateUpdatedPage, async (req, res
             req.flash('error', 'Page not found.');
             return res.redirect('/admin/pages');
         }
+        if(page.title.toLowerCase() === 'home' && data.title.toLowerCase() !== 'home'){
+            req.flash('error', 'Home page cannot be renamed.');
+            return res.render('admin/edit-pag', {page})
+        }
+
+
         await adminservices.updatePage(slug, data)
         req.flash('success','the page updated successfully');
         res.redirect('/admin/pages')
@@ -72,6 +78,26 @@ router.post('/edit-page/:slug', PageSchema, ValidateUpdatedPage, async (req, res
     
 })
 
+
+router.post('/delete-page/:id', async (req, res) => {
+    const id = req.params.id
+    try {
+        const page = await adminservices.deletePage(id);
+        if (!page) {
+            req.flash('error', 'Page not found.');
+            return res.redirect('/admin/pages');
+        }
+        
+        req.flash('success','the page deleted successfully');
+        res.redirect('/admin/pages')
+
+    }catch(error){
+        console.log(error);
+        req.flash('error','there is something wrong with deleting the page');
+        res.redirect('/admin/pages')
+    }
+    
+})
 
 
 
