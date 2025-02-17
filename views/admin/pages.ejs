@@ -20,10 +20,8 @@
         </div>
     <% } %>
 
-    <!-- Page Title -->
     <h2 class="page-title text-center my-4">📄 Manage Pages</h2>
 
-    <!-- Add Page Button -->
     <div class="text-center mb-4">
         <a class="btn btn-success btn-lg" href="/admin/add-page">
             <i class="fas fa-plus-circle"></i> Add New Page
@@ -31,7 +29,6 @@
     </div>
     
 
-    <!-- Table -->
     <div class="table-responsive">
         <table class="table table-hover table-bordered shadow-sm custom-silver-table">
             <thead class="table-dark">
@@ -49,14 +46,14 @@
                                 <a href="/admin/details/<%= page.slug %>" class="text-decoration-none fw-bold text-primary">
                                     <strong><%= page.title %></strong>
                                 </a>
-                                                            </td>
+                            </td>
 
                             <td>
                                 <a href="/admin/edit-page/<%= page.slug %>" class="btn btn-warning btn-sm">
                                          Edit
                                 </a>
                             </td>
-                            <% if(page.title == 'Home' ||page.title == 'home' ) {%>
+                            <% if(page.title == 'Home' || page.title == 'home' ) {%>
                                 <td></td>
                             <% } else { %>
                             <td>

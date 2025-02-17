@@ -1,8 +1,10 @@
+// /admin
 const express = require('express');
 const PageSchema = require('../schema/pageSchema');
 const ValidatePageSchema= require('../midlewares/validatePage');
 const ValidateUpdatedPage = require('../midlewares/validateUpdatedPage');
 const adminservices= require('../services/adminServices') 
+const categories = require('./adminCategories')
 const router = express.Router();
 
 router.get('/pages' ,async  (req, res) => {
@@ -98,6 +100,8 @@ router.post('/delete-page/:id', async (req, res) => {
     }
     
 })
+
+router.use('/category', categories)
 
 
 
