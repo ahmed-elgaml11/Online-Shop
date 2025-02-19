@@ -1,17 +1,17 @@
-const {validationResult} = require('express-validator')
-const validataUpdatedPage = (req, res, next) => {
-    const page = {
-        title: req.body.title,
-        content: req.body.content,
-        slug: req.params.slug,
-    }
+const { validationResult } = require('express-validator');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
+
+const validateUpdatePage = (req, res, next) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        req.flash('error', errors.array());
-        console.log(errors, errors.array());
-        res.render('admin/edit-page',{page});
+    if (!errors.isEmpty()) {
+        req.flash('error',errors.array());
+        console.log('Validation error ', errors.array())
+        res.redirect(`/admin/edit-page/${req.params.slug}`);
         return;
     }
     next();
 }
-module.exports = validataUpdatedPage;
+
+module.exports = validateUpdatePage;

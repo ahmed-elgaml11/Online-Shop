@@ -5,6 +5,9 @@ const ValidatePageSchema= require('../midlewares/validatePage');
 const ValidateUpdatedPage = require('../midlewares/validateUpdatedPage');
 const adminservices= require('../services/adminServices') 
 const categories = require('./adminCategories')
+
+
+
 const router = express.Router();
 
 router.get('/pages' ,async  (req, res) => {
@@ -15,14 +18,16 @@ router.get('/pages' ,async  (req, res) => {
 router.get('/add-page', (req, res) => {
     res.render('admin/add-page')
 })
+
+
 router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
-    const content = req.body.content
-    const title = req.body.title
-    try{
-        await adminservices.addPage({
-            title,
-            content
-        });    
+
+    let data = {
+        title: req.body.title,
+        content: req.body.content
+    }
+    try {
+        await adminservices.addPage(data)
         req.flash('success','the page added successfully');
         res.redirect('/admin/pages');
     }
@@ -60,12 +65,12 @@ router.post('/edit-page/:slug', PageSchema, ValidateUpdatedPage, async (req, res
     try{
         const page = await adminservices.findPage(slug);
         if (!page) {
-            req.flash('error', 'Page not found.');
+            req.flash('error', 'Page not found in the database');
             return res.redirect('/admin/pages');
         }
         if(page.title.toLowerCase() === 'home' && data.title.toLowerCase() !== 'home'){
             req.flash('error', 'Home page cannot be renamed.');
-            return res.render('admin/edit-page', {page})
+            return res.redirect(`/admin/edit-page/${slug}`, )
         }
 
 

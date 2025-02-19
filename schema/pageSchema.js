@@ -1,4 +1,7 @@
 const { check } = require('express-validator');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
 const schema = [
     check('title')
         .notEmpty().withMessage('Title is required')
@@ -6,7 +9,14 @@ const schema = [
 
     check('content')
         .isString().withMessage('Content must be a string')
-        .isLength({ min: 5, max: 1000 }).withMessage('Content must be between 5 and 1000 characters')
+        .custom((value) => {
+            const dom = new JSDOM(value || '' ); 
+            const contentText = dom.window.document.body.textContent;
+            if(contentText.length < 5 || contentText.length > 1000) {
+                throw new Error('Content must be between 5 and 1000 characters and is required');
+            }
+            return true;
+        })
 ];
 
 module.exports = schema;

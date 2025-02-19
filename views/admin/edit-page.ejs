@@ -6,7 +6,7 @@
     <div class="col-md-6 mx-auto">
         <% error.forEach(function(err) { %>
             <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
-                <i class="fas fa-exclamation-circle"></i> <%= err.msg ?? err %>
+                <i class="fas fa-exclamation-circle"></i> <%= err.msg  || err %>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <% }); %>
@@ -43,7 +43,7 @@
                 <!-- Content Field -->
                 <div class="mb-3">
                     <label for="content" class="form-label"><h5>📝 Content</h5></label>
-                    <textarea class="form-control shadow-sm" id="content" name="content" rows="6" placeholder="Enter content" required><%= page.content %></textarea>
+                    <textarea class="form-control shadow-sm" id="content" name="content" rows="6" placeholder="Enter a content" required><%= page.content %></textarea>
                 </div>
                 
                 <!-- Submit Button -->
