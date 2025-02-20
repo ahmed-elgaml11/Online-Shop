@@ -1,5 +1,7 @@
 const Page = require('../models/pages')
 const Category = require('../models/categories')
+
+// pages handlers
 const addPage = async (body) => {
         const page = new Page(body);
         await page.save();
@@ -29,9 +31,19 @@ const deletePage = async(id) => {
 }
 
 
+
+
+
+
+
 // categories handlers
 const getCategories = async() => {
     return Category.find({})
+}
+
+ const addCategory = async (data) => {
+    const category = new Category({title: data});
+    return category.save();   
 }
 
 
@@ -46,4 +58,5 @@ module.exports = {
     deletePage,
     findPageid,
     getCategories,
+    addCategory
 }
