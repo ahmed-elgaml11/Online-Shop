@@ -54,6 +54,17 @@ const saveCategory = async (category) => {
     return category.save()
 }
 
+const deleteCategory = async (id) => {
+    return Category.findByIdAndDelete(id);
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -67,5 +78,6 @@ module.exports = {
     getCategories,
     addCategory,
     getCategory,
-    saveCategory
+    saveCategory,
+    deleteCategory
 }

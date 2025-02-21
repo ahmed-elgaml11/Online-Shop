@@ -70,15 +70,24 @@ router.post('/edit-category/:slug', categorySchema, validateUpdatedCategory, asy
     const newSlug = slugify( req.body.title, {lower: true, strict: true})
     // update the category in the db then redirect to the category page
     try{
-         // to ensure the category is unique
-        const category = await adminServices.getCategory(newSlug)
-        if (category ){
-            req.flash('error', 'this category is already exists');
-            res.redirect(`/admin/category/edit-category/${slug}`);
+        const existCategoy = await adminServices.getCategory(slug)
+        if(!existCategoy){
+            req.flash('error','this category is not exists')
+            res.redirect('/admin/category/')
             return;
         }
 
-        const existCategoy = await adminServices.getCategory(slug)
+         // to ensure the category is unique
+         if(slug != newSlug){
+            const category = await adminServices.getCategory(newSlug)
+            if (category ){
+                req.flash('error', 'this category is already exists');
+                res.redirect(`/admin/category/edit-category/${slug}`);
+                return;
+            }
+         }
+
+
 
         existCategoy.title = req.body.title;
         existCategoy.slug = newSlug;
@@ -89,8 +98,34 @@ router.post('/edit-category/:slug', categorySchema, validateUpdatedCategory, asy
     }
     catch(error){
         console.log(error)
+        if(error.code == 11000){
+            req.flash('error','this category is already exists')
+        }
+
         req.flash('error', 'there is something wrong in updating this category');
         res.redirect(`/admin/category/edit-category/${slug}`)
+    }
+})
+
+
+router.post('/delete-category/:id', async (req, res) => {
+    const id = req.params.id;
+    try{
+        const deletedCategory =  await adminServices.deleteCategory(id);
+        if(!deletedCategory){
+            req.flash('error', 'category not found.');
+            return res.redirect('/admin/category');
+        }
+
+        
+        req.flash('success', 'the category was deleted successfully')
+        res.redirect('/admin/category')
+
+    }
+    catch(error){
+        req.flash('there is something wrong with deleting the page')
+        res.redirect('/admin/category/')
+
     }
 })
 

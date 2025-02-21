@@ -63,7 +63,14 @@ router.post('/edit-page/:slug', PageSchema, ValidateUpdatedPage, async (req, res
         content: req.body.content,
     }
     try{
+
+
         const page = await adminservices.findPage(slug);
+        if (!page) {
+            req.flash('error', 'Page not found.');
+            return res.redirect('/admin/pages');
+        }
+
         if(page.title.toLowerCase() === 'home' && data.title.toLowerCase() !== 'home'){
             req.flash('error', 'Home page cannot be renamed.');
             return res.redirect(`/admin/edit-page/${slug}`, )
