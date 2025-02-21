@@ -5,6 +5,7 @@ const ValidatePageSchema= require('../midlewares/validatePage');
 const ValidateUpdatedPage = require('../midlewares/validateUpdatedPage');
 const adminservices= require('../services/adminServices') 
 const categories = require('./adminCategories')
+const products = require('./adminProducts')
 
 
 
@@ -110,6 +111,7 @@ router.post('/delete-page/:id', async (req, res) => {
 })
 
 router.use('/category', categories)
+router.use('/product', products)
 
 
 

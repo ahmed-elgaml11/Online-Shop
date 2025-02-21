@@ -1,5 +1,6 @@
 const Page = require('../models/pages')
 const Category = require('../models/categories')
+const Product = require('../models/products')
 
 // pages handlers
 const addPage = async (body) => {
@@ -61,6 +62,7 @@ const deleteCategory = async (id) => {
 
 
 
+// products handlers
 
 
 
