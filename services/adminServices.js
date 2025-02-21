@@ -41,11 +41,18 @@ const getCategories = async() => {
     return Category.find({})
 }
 
- const addCategory = async (data) => {
-    const category = new Category({title: data});
+ const addCategory = async (title) => {
+    const category = new Category({title: title});
     return category.save();   
 }
 
+const getCategory = async (slug) => {
+    return Category.findOne({slug: slug})
+}
+
+const saveCategory = async (category) => {
+    return category.save()
+}
 
 
 
@@ -58,5 +65,7 @@ module.exports = {
     deletePage,
     findPageid,
     getCategories,
-    addCategory
+    addCategory,
+    getCategory,
+    saveCategory
 }

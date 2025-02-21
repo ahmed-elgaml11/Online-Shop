@@ -18,6 +18,7 @@ const CategorySchema = new Schema({
 
 CategorySchema.pre('save', function(next){
     const newSlug = slugify(this.title, {lower: true, strict: true});
+    if(!this.slug || this.slug != newSlug ) 
     this.slug = newSlug;
     next()
 })

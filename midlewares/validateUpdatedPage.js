@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator');
 const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 
 
 const validateUpdatePage = (req, res, next) => {

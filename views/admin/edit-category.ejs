@@ -1,7 +1,6 @@
 <%- include('../parts/Admin_header') %>
 <%- include('../parts/Admin_navbar') %>
 <br> <br>
-
 <% if (error.length > 0) { %>
     <div class="col-md-6 mx-auto">
         <% error.forEach(function(err) { %>
@@ -14,13 +13,14 @@
 <% } %>
 
 
+
 <div class="col-md-8 mx-auto">
     <div class="card shadow-lg border-0 rounded-4" style="background: linear-gradient(to bottom, #f8f9fa, #e9ecef);">
         <div class="card-body p-4">
 
             <div class="text-center mb-4">
                 <div class="py-3 rounded-3 shadow-sm text-white" style="background: #495057;">
-                    <h2 class="mb-0">📝 Add New Category</h2>
+                    <h2 class="mb-0">📝 Edit Category </h2>
                 </div>
             </div>
 
@@ -30,17 +30,17 @@
                 </a>
             </div>
 
-            <form action="/admin/category/add-category" method="post">
+            <form action="/admin/category/edit-category/<%= category.slug %>" method="post">
                 
                 <div class="mb-3">
                     <label for="title" class="form-label"><h5>📌 Category Name:</h5></label>
-                    <input type="text" class="form-control shadow-sm" id="title" name="title" placeholder="Enter title" required>
+                    <input type="text" class="form-control shadow-sm" id="title" value="<%= category.title %>" name="title" placeholder="Enter title" required>
                 </div>
 
 
                 <div class="text-center">
                     <button class="btn btn-dark px-5 py-2 fw-bold" type="submit">
-                        <i class="fas fa-save"></i>Add Category
+                        <i class="fas fa-save"></i>Edit Category
                     </button>
                 </div>
                 
@@ -59,6 +59,7 @@
         });
     }, 3000);
 </script>
+
 
 
 <%- include('../parts/Admin_footer') %>
