@@ -62,9 +62,14 @@ const deleteCategory = async (id) => {
 
 
 
+
+
 // products handlers
 
 
+const getProducts = async () => {
+    return Product.find({})
+}
 
 
 
@@ -81,5 +86,6 @@ module.exports = {
     addCategory,
     getCategory,
     saveCategory,
-    deleteCategory
+    deleteCategory,
+    getProducts
 }

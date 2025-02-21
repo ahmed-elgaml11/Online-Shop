@@ -10,11 +10,13 @@ const productSchema = new schema({
     },
     slug: {
         type: String,
-        unique: true
+        unique: true,
+        index: true
+
     },
     desc: {
         type: String,
-        required: true
+        required: true,
 
     },
     price: {
