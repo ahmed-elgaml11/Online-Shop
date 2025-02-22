@@ -1,0 +1,125 @@
+<%- include('../parts/Admin_header') %>
+<%- include('../parts/Admin_navbar') %>
+<br> <br>
+
+<% if (error.length > 0) { %>
+    <div class="col-md-6 mx-auto">
+        <% error.forEach(function(err) { %>
+            <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
+                <i class="fas fa-exclamation-circle"></i> <%= err.msg || err %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% }); %>
+    </div>
+<% } %>
+
+
+<div class="col-md-8 mx-auto">
+    <div class="card shadow-lg border-0 rounded-4" style="background: linear-gradient(to bottom, #f8f9fa, #e9ecef);">
+        <div class="card-body p-4">
+
+            <div class="text-center mb-4">
+                <div class="py-3 rounded-3 shadow-sm text-white" style="background: #495057;">
+                    <h2 class="mb-0">📝 Add New Product</h2>
+                </div>
+            </div>
+
+            <div class="text-start mb-3">
+                <a href="/admin/product/" class="btn btn-outline-dark">
+                    <i class="fas fa-arrow-left"></i> Back To All Products
+                </a>
+            </div>
+
+
+            <form action="/admin/product/add-product" method="post" enctype="multipart/form-data">
+
+
+                <div class="mb-3">
+                    <label for="title" class="form-label"><h5>📌 Product Name:</h5></label>
+                    <input type="text" class="form-control shadow-sm" id="title" name="title" placeholder="Enter title" required>
+                </div>
+            
+            
+            
+                <label for="" class="form-label" ><h5>Select Category</h5></label>
+                <select  name="category"  class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <% if(categories){ %>
+                       <% categories.forEach(function(cat){ %>                
+                            <option value="<%= cat.slug %>"><%= cat.title %></option>
+                    <%});%>
+                <% }%>
+                </select>
+                <br>
+            
+            
+            
+                <div class="mb-3">
+                    <label for="desc" class="form-label"><h5>📝 Description</h5></label>
+                    <textarea class="form-control shadow-sm" id="desc" name="desc" rows="6" placeholder="Enter a description" ></textarea>
+                </div>
+            
+            
+            
+            
+                  <div class="mb-3">
+                    <label for="price" class="form-label"><h5>💲 Price</h5></label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" id="price" name="price" class="form-control" step="0.1" min="0" required>
+                    </div>
+                </div>
+                
+            
+            
+        
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label"><h5>Image</h5></label>
+                    <input class="form-control" name="image" type="file" id="formFile">
+                </div>
+                <img src="#" id="imgPreview" class="img-thumbnail" style="max-width: 200px;">
+            
+            </form>
+
+
+            <script>
+        document.getElementById('formFile').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('imgPreview').src = reader.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+            </script>   
+
+            
+            
+            
+            
+
+
+
+        </div>
+    </div>
+</div>        
+
+
+
+
+
+
+
+
+
+<script>
+    setTimeout(() => {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.classList.add('fade-out');
+        });
+    }, 3000);
+</script>
+
+
+<%- include('../parts/Admin_footer') %>

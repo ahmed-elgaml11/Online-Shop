@@ -13,6 +13,11 @@ router.get('/', async (req, res) => {
 })
 
 
+router.get('/add-product', async (req, res) => {
+    const categories = await adminServices.getCategories();
+    res.render('admin/add-product',{categories})
+})
+
 
 
 

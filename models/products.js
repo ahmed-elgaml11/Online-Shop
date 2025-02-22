@@ -14,6 +14,10 @@ const productSchema = new schema({
         index: true
 
     },
+    category: {
+        type: String,
+        required: true
+    },
     desc: {
         type: String,
         required: true,
