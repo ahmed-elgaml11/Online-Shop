@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const adminServices = require('../services/adminServices');
-
+const productSchema = require('../schema/productSchema');
+const validateProduct = require('../midlewares/validateProduct')
 
 // admin/product
 
@@ -21,7 +22,7 @@ router.get('/add-product', async (req, res) => {
 router.post('/add-product', productSchema, validateProduct, async (req, res) => {
     const {title, category, desc, price, image} = req.body;
     try{
-        await adminServices.addProduct({title, category, desc, price});
+        await adminServices.addProduct({title, category, desc, price, image});
         req.flash('success', 'Product added successfully');
         res.redirect('/admin/product');
     }catch(error){
