@@ -71,6 +71,11 @@ const getProducts = async () => {
     return Product.find({})
 }
 
+const addProduct = async (data) => {
+    const product = new Product(data)
+    return product.save()
+}
+
 
 
 
@@ -87,5 +92,6 @@ module.exports = {
     getCategory,
     saveCategory,
     deleteCategory,
-    getProducts
+    getProducts,
+    addProduct
 }
