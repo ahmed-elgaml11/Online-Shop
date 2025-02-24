@@ -6,7 +6,7 @@ const productSchema = require('../schema/productSchema');
 const validateProduct = require('../midlewares/validateProduct')
 const upload = require('../app')
 const slugify = require('slugify');
-
+const fs = require('fs');
 const path = require('path');
 
 
@@ -32,11 +32,12 @@ router.post('/add-product', upload.single('image'), productSchema, validateProdu
     const image = req.file? req.file.filename : "";  
     const data = {title, category, desc, price, image}
     const slug = slugify(title, {lower: true, strict: true})
+    const categories = await adminServices.getCategories();
+
     try{
         const existingProduct  = await adminServices.getProduct(slug)
         if(existingProduct ){
-            req.flash('error', 'This product already exists')
-            res.render('admin/add-product',{product: data})
+            res.render('admin/add-product',{product: data, error: ['This product is already exists'], categories })
             return;
         }
         const product = await adminServices.addProduct(data);
@@ -45,6 +46,7 @@ router.post('/add-product', upload.single('image'), productSchema, validateProdu
             fs.mkdirSync(productDir, { recursive: true });
             const newPath = path.join(productDir, req.file.filename);
             fs.renameSync(req.file.path, newPath);
+            req.file.path = newPath;
         }
         req.flash('success', 'Product added successfully');
         res.redirect('/admin/product');
@@ -52,10 +54,12 @@ router.post('/add-product', upload.single('image'), productSchema, validateProdu
         if (req.file) {
             await fs.promises.unlink(path.join(__dirname, '../public', 'uploads', 'temp', req.file.filename));
           }
-        req.flash('error', 'there is something wrong in adding this product')
-        res.render('admin/add-product',{product: data})
+        console.log(error)  
+        res.render('admin/add-product',{product: data, error: ['there is something wrong in adding this product'], categories})
     }
 })
+
+
 
 
 

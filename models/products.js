@@ -8,7 +8,6 @@ const productSchema = new schema({
         type:String,
         required: true,
         unique: true,
-        index: true
     },
     slug: {
         type: String,
@@ -35,20 +34,20 @@ const productSchema = new schema({
     }
 
 })
-const Product = mongoose.model('Product', productSchema);
 
 productSchema.pre('save', async function(next){
-    const newSlug = slugify(this.title, {lower: true, strict: true})
-    const ptoduct = await Product.findOne({ slug: newSlug});
+    let newSlug = slugify(this.title, {lower: true, strict: true})
+    let ptoduct = await mongoose.model('Product').findOne({ slug: newSlug});
     let counter = 1;
     while(ptoduct){
         newSlug = `${slugify(this.title, {lower: true, strict: true})}-${counter}`;
-        ptoduct = await Product.findOne({ slug: newSlug});
+        ptoduct = await mongoose.model('Product').findOne({ slug: newSlug});
         counter++;
 
     }
     this.slug =  newSlug;
+    next();
 })
 
-
+const Product = mongoose.model('Product', productSchema);
 module.exports = Product;

@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');  
 const multer = require('multer');
+const fs = require('fs');
 
 
 
@@ -57,8 +58,11 @@ const storage = multer.diskStorage({
 
 });
 const fileFilter = (req, file, cb) => {
-    if (!file.mimetype.startsWith('image/')) {
-        return cb(new Error("Only images are allowed!"), false);
+    if(!file){
+      return cb(null, true);
+    }
+    if (!file.mimetype || !file.mimetype.startsWith('image/')) {
+      return cb(new Error("Only images are allowed!"), false);
     }
     cb(null, true);
 };

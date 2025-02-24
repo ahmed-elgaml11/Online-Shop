@@ -17,6 +17,5 @@ const schema = [
             }
             return true;
         })
-    
 ]
 module.exports = schema;
