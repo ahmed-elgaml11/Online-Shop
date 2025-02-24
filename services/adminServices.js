@@ -71,11 +71,21 @@ const getProducts = async () => {
     return Product.find({})
 }
 
+const createProduct = async (data) => {
+    return new Product(data)
+}
+const saveProduct = async (product) => {
+    return Product.save()
+}
+
+const getProduct = async (slug) => {
+    return Product.findOne({slug: slug})
+}
+
 const addProduct = async (data) => {
     const product = new Product(data)
     return product.save()
 }
-
 
 
 
@@ -93,5 +103,8 @@ module.exports = {
     saveCategory,
     deleteCategory,
     getProducts,
+    createProduct,
+    saveProduct,
+    getProduct,
     addProduct
 }

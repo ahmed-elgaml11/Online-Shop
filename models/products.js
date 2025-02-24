@@ -6,7 +6,9 @@ const slugify = require('slugify');
 const productSchema = new schema({
     title: {
         type:String,
-        required: true
+        required: true,
+        unique: true,
+        index: true
     },
     slug: {
         type: String,

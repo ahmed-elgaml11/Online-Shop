@@ -54,10 +54,10 @@
                         </td>
                         <td>
                            <% if(product.image == ""){ %>
-                            <img src="/imgs/noimage.png" >
+                            <img src="/imgs/noimage.png" width="80" height="80""">
 
                             <% }else{ %>
-                                <img src="/product_imgs/<%= product._id %>/<%= product.image %>" alt="">
+                                <img src="/uploads/products/<%= product._id %>/<%= product.image %>" width="80" height="80 alt="">
                             <% } %>
                         </td>
                         <td>

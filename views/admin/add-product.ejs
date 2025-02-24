@@ -36,19 +36,19 @@
 
                 <div class="mb-3">
                     <label for="title" class="form-label"><h5>📌 Product Name:</h5></label>
-                    <input type="text" class="form-control shadow-sm" id="title" name="title" placeholder="Enter title" required>
+                    <input type="text" class="form-control shadow-sm" value="<%= product.title %>" id="title" name="title" placeholder="Enter title" required>
                 </div>
             
             
             
                 <label for="" class="form-label" ><h5>Select Category</h5></label>
-                <select  name="category"  class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <% if(categories){ %>
-                       <% categories.forEach(function(cat){ %>                
+                <select name="category" class="form-select" aria-label="Default select example">
+                    <option value="" disabled selected>Open this select menu</option>
+                    <% if(categories && categories.length > 0){ %>
+                        <% categories.forEach(function(cat){ %>                
                             <option value="<%= cat.slug %>"><%= cat.title %></option>
-                    <%});%>
-                <% }%>
+                        <% }); %>
+                    <% } %>
                 </select>
                 <br>
             
@@ -56,7 +56,7 @@
             
                 <div class="mb-3">
                     <label for="desc" class="form-label"><h5>📝 Description</h5></label>
-                    <textarea class="form-control shadow-sm" id="desc" name="desc" rows="6" placeholder="Enter a description" ></textarea>
+                    <textarea class="form-control shadow-sm" value="<%= product.desc %>" id="desc" name="desc" rows="6" placeholder="Enter a description" ></textarea>
                 </div>
             
             
@@ -66,7 +66,7 @@
                     <label for="price" class="form-label"><h5>💲 Price</h5></label>
                     <div class="input-group">
                         <span class="input-group-text">$</span>
-                        <input type="number" id="price" name="price" class="form-control" step="0.1" min="0" required>
+                        <input type="number" id="price" value="<%= product.price %>" name="price" class="form-control" step="0.1" min="0" required>
                     </div>
                 </div>
                 
@@ -78,7 +78,7 @@
                     <label for="formFile" class="form-label"><h5>Image</h5></label>
                     <input class="form-control" name="image" type="file" id="formFile">
                 </div>
-                <img src="#" id="imgPreview" class="img-thumbnail" style="max-width: 200px;">
+                <img src="#" id="imgPreview" value="<%= product.image %>" class="img-thumbnail" style="max-width: 200px;">
 
                 <div class="text-center">
                     <button class="btn btn-dark px-5 py-2 fw-bold" type="submit">

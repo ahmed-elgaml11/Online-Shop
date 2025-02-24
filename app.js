@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');  
+const multer = require('multer');
+
 
 
 
@@ -17,6 +19,9 @@ main()
 async function main() {
   await mongoose.connect(process.env.DATABASE);
 }
+
+
+
 
 // MIDLLWARES
 const app =express();
@@ -38,6 +43,34 @@ app.use((req, res, next) => {
   res.locals.error = req.flash('error');
   next();
 });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // temporary folder
+    const tempPath = path.join(__dirname, 'public', 'uploads', 'temp');
+    fs.mkdirSync(tempPath, {recursive: true});
+    cb(null, tempPath)
+
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+
+});
+const fileFilter = (req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) {
+        return cb(new Error("Only images are allowed!"), false);
+    }
+    cb(null, true);
+};
+ const upload = multer({
+  storage: storage,
+  fileFilter
+});
+module.exports = upload;
+
+
+
+
 
 
 //ROUTES

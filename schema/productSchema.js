@@ -9,7 +9,14 @@ const schema = [
     check('price')
         .isNumeric().withMessage('Price must be a number'),
     check('image')
-        .isURL().withMessage('Image must be a valid URL'),
+        .custom((value, {req}) => {
+            if(!req.file) return true; // No file uploaded
+            const types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+            if(!types.includes(req.file.mimetype)){
+                throw new Error ('Only JPEG, PNG, GIF, and WEBP images are allowed')
+            }
+            return true;
+        })
+    
 ]
-
 module.exports = schema;
