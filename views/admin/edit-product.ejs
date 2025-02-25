@@ -96,7 +96,7 @@
                     <label for="formFile" class="form-label"><h5> Current Image 🖼️</h5></label>
                     <br>
                 <% if(product.image != ""){ %>
-                    <img src="/uploads/products/<%= product._id %>/<%= product.image %>"" width="120" height="100" alt="">
+                    <img src="/uploads/products/<%= product._id %>/<%= product.image %>"" width="140" height="180" alt="">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="deleteImage" name="deleteImage" value="true">
                         <label class="form-check-label" for="deleteImage">Delete this image</label>
@@ -142,6 +142,7 @@
                             <p>No gallery images uploaded yet.</p>
                         <% } %>
                     </div>
+                    <br><br>
 
              </div>
                     <label for=""><h5>Upload New Images For Gallery</h5></label>

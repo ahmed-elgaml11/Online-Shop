@@ -71,7 +71,6 @@ router.get('/edit-product/:id', async (req, res) => {
         }
         const galleyDir = path.join(__dirname, '../public', 'uploads', 'products', existingProduct._id.toString(), 'gallery')
         const galleryImages = fs.existsSync(galleyDir)? fs.readdirSync(galleyDir) : []
-        console.log(galleryImages)
 
 
 
@@ -151,7 +150,6 @@ router.post('/edit-product/:id/gallery',upload.array('galleryImages'), (req, res
     try{
         const galleryPath = path.join(__dirname, `../public/uploads/products/${id}/gallery`)
         fs.mkdirSync(galleryPath, {recursive: true});
-        console.log(req.files)
         req.files.forEach(file => {
             const newPath = path.join(galleryPath, file.filename);
             fs.renameSync(file.path, newPath);
@@ -162,7 +160,8 @@ router.post('/edit-product/:id/gallery',upload.array('galleryImages'), (req, res
     }
     catch(error){
         console.error('Gallery upload error:', error);
-        res.status(500).send('Error processing gallery images');
+        req.flash('error', error)
+        res.status(500).redirect(`/admin/product/edit-product/${id}`);
     }
 })
 router.get('/delete-gallery-image/:id/:image', async (req, res) => {

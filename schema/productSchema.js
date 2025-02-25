@@ -7,7 +7,7 @@ const schema = [
     check('desc')
         .notEmpty().withMessage('Description is required'),
     check('price')
-        .isNumeric().withMessage('Price must be a number'),
+        .notEmpty().isNumeric().withMessage('Price must be a number'),
     check('image')
         .custom((value, {req}) => {
             if(!req.file) return true; // No file uploaded
