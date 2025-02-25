@@ -178,5 +178,33 @@ router.get('/delete-gallery-image/:id/:image', async (req, res) => {
 
 })
 
+router.post('/delete-product/:id', async (req, res) => {
+    const id = req.params.id;
+    try{
+        const existingProduct = await adminServices.getProductID(id);
+        if(!existingProduct){
+            req.flash('error', 'this product is not exists')
+            return res.redirect('/admin/product/')
+        }
+        const deletedPath = path.join(__dirname, '../public/uploads/products');
+        if(!fs.existsSync(deletedPath)){
+            fs.mkdirSync(deletedPath, { recursive: true });
+        }
+        const productDir = path.join(deletedPath, id.toString());
+        if(fs.existsSync(productDir)){
+            fs.rmSync(productDir, { recursive: true, force: true });;
+        }
+        await adminServices.deleteProduct(id);
+        req.flash('success', 'the product was deleted successfully')
+        res.redirect('/admin/product')
+    }
+    catch(error){
+        console.log(error)
+        req.flash('error', 'there is something wrong in deletting this product')
+        res.redirect('/admin/product/')
+
+    }
+})
+
 
 module.exports = router

@@ -9,6 +9,7 @@ const session = require('express-session');
 const flash = require('connect-flash');  
 const multer = require('multer');
 const fs = require('fs');
+const Page = require('./models/pages');
 
 
 
@@ -39,9 +40,10 @@ app.use(session({
   cookie: { maxAge: 1000*60*60*24*30 }, // month
  }));
 app.use(flash());
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
+  res.locals.pages = await Page.find({});
   next();
 });
 const storage = multer.diskStorage({

@@ -97,6 +97,9 @@ const findUpdateProduct = async(id, data) => {
 const getProductUnique = async (id, slug) => {
     return Product.findOne({_id: {'$ne':id} , slug: slug})
 }
+const deleteProduct = async (id) => {
+    return Product.findByIdAndDelete(id)
+}
 
 
 
@@ -120,5 +123,6 @@ module.exports = {
     addProduct,
     getProductID,
     findUpdateProduct,
-    getProductUnique
+    getProductUnique,
+    deleteProduct
 }
