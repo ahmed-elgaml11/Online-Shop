@@ -2,8 +2,8 @@
 <%- include('../parts/Admin_navbar') %>
 <br> <br>
 
-<% if (error.length > 0) { %>
-    <div class="col-md-6 mx-auto">
+<% if (error && error.length > 0) { %>
+        <div class="col-md-6 mx-auto">
         <% error.forEach(function(err) { %>
             <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
                 <i class="fas fa-exclamation-circle"></i> <%= err.msg || err %>
@@ -20,7 +20,7 @@
 
             <div class="text-center mb-4">
                 <div class="py-3 rounded-3 shadow-sm text-white" style="background: #495057;">
-                    <h2 class="mb-0">📝 Add New Product</h2>
+                    <h2 class="mb-0">📝 Edit Product</h2>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
             </div>
 
 
-            <form action="/admin/product/add-product" method="post" enctype="multipart/form-data">
+            <form action="/admin/product/edit-product/<%= product._id %>" method="post" enctype="multipart/form-data">
 
 
                 <div class="mb-3">
@@ -45,18 +45,27 @@
                 <select name="category" class="form-select" aria-label="Default select example">
                     <option value="" disabled selected>Open this select menu</option>
                     <% if(categories && categories.length > 0){ %>
-                        <% categories.forEach(function(cat){ %>                
-                            <option value="<%= cat.title %>"><%= cat.title %></option>
+                        <% categories.forEach(function(cat){ %>     
+                            <option value="<%= cat.title %>" 
+                              <%  if(product.category===cat.title){ %>
+                                    selected
+                              <%}%>>
+                              <%= cat.title %>         
+                            </option>
+
                         <% }); %>
                     <% } %>
                 </select>
                 <br>
+
+
+
             
             
             
                 <div class="mb-3">
                     <label for="desc" class="form-label"><h5>📝 Description</h5></label>
-                    <textarea class="form-control shadow-sm" value="<%= product.desc %>" id="desc" name="desc" rows="6" placeholder="Enter a description" ><%= product.desc %></textarea>
+                    <textarea class="form-control shadow-sm"  id="desc" name="desc" rows="6" placeholder="Enter a description" ><%= product.desc %></textarea>
                 </div>
             
             
@@ -70,19 +79,55 @@
                     </div>
                 </div>
                 
-            
-            
-        
+
 
                 <div class="mb-3">
-                    <label for="formFile" class="form-label"><h5>Image</h5></label>
-                    <input class="form-control" value="<%= product.image  %>" name="image" type="file" id="formFile">
+                    <label for="formFile" class="form-label"><h5>Current Image</h5></label>
+                <% if(product.image){ %>
+                    <img src="/uploads/products/<%= product._id %>/<%= product.image %>" alt="">
+                <% } %>
                 </div>
-                <img src="#" id="imgPreview" value="<%= product.image %>" class="img-thumbnail" style="max-width: 200px;">
+
+
+
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label"><h5>Upload Image</h5></label>
+                    <input class="form-control" name="image" type="file" id="formFile">
+                </div>
+
+
+                <img src="#" id="imgPreview"  class="img-thumbnail" style="max-width: 200px;">
+
+                <div class="mb-3">
+                    <label for="gallery"><h5>Gallery</h5></label>
+                    
+                    <!-- Display Existing Gallery Images -->
+                    <div class="gallery-preview">
+                        <% if (galleryImages && galleryImages.length > 0) { %>
+                            <% galleryImages.forEach(function(image) { %>
+                                <div class="gallery-item">
+                                    <img src="/uploads/products/<%=product._id %>/gallery/<%= product.image %>" width="100" height="100" alt="Gallery Image">
+                                    <a href="/admin/product/delete-gallery-image/<%= product._id %>/<%= product.image %>" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p>No gallery images uploaded yet.</p>
+                        <% } %>
+
+                </div>
+                    <label for=""><h5>Upload New Images</h5></label>
+                    <input type="file" name="galleryImages" id="gallery" multiple class="form-control">
+                </div>
+
+                <!-- // gallery preview container -->
+                <div id="galleryPreview" class="d-flex flex-wrap"></div>
+
+                
 
                 <div class="text-center">
                     <button class="btn btn-dark px-5 py-2 fw-bold" type="submit">
-                        <i class="fas fa-save"></i> Add Product
+                        <i class="fas fa-save"></i> Update Product
                     </button>
                 </div>
 
@@ -98,6 +143,23 @@
             }
             reader.readAsDataURL(e.target.files[0]);
         });
+        document.getElementById('gallery').addEventListener('change', function(e) {
+    const previewContainer = document.getElementById('galleryPreview'); 
+    previewContainer.innerHTML = ""; // Clear previous previews
+
+    Array.from(e.target.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const img = document.createElement('img');
+            img.src = reader.result;
+            img.classList.add('img-thumbnail', 'm-2');
+            img.style.maxWidth = '100px'; 
+            img.style.maxHeight = '100px';
+            previewContainer.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    });
+});
             </script>   
 
             

@@ -87,6 +87,10 @@ const addProduct = async (data) => {
     return product.save()
 }
 
+const getProductID = async (id) => {
+    return Product.findById(id)
+}
+
 
 
 
@@ -106,5 +110,6 @@ module.exports = {
     createProduct,
     saveProduct,
     getProduct,
-    addProduct
+    addProduct,
+    getProductID
 }

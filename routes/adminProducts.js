@@ -59,6 +59,36 @@ router.post('/add-product', upload.single('image'), productSchema, validateProdu
     }
 })
 
+router.get('/edit-product/:id', async (req, res) => {
+    // find the product then render it 
+    const id = req.params.id;
+    try{
+        const categories = await adminServices.getCategories()
+        const existingProduct = await adminServices.getProductID(id)
+        if(!existingProduct){
+            req.flash('error', 'this product is not exists')
+            return res.redirect('/admin/product/')
+        }
+        const galleyDir = path.join(__dirname, '../public', 'uploads', 'products', existingProduct._id.toString(), 'gallery')
+        const galleryImages = fs.existsSync(galleyDir)? fs.readdirSync(galleyDir) : []
+
+
+
+
+        res.render('admin/edit-product', {
+            product: existingProduct,
+            categories,
+            galleryImages
+        })
+    }
+    catch(error){
+        console.log(error)
+        req.flash('error', 'there is something wrong in getting this product')
+        res.redirect('/admin/product/')
+    }
+})
+
+
 
 
 
