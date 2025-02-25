@@ -10,6 +10,7 @@ const flash = require('connect-flash');
 const multer = require('multer');
 const fs = require('fs');
 const Page = require('./models/pages');
+const Category = require('./models/categories');
 
 
 
@@ -44,6 +45,7 @@ app.use(async (req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   res.locals.pages = await Page.find({});
+  res.locals.categories = await Category.find({});
   next();
 });
 const storage = multer.diskStorage({
