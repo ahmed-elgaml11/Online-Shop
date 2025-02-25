@@ -46,7 +46,12 @@
                     <option value="" disabled selected>Open this select menu</option>
                     <% if(categories && categories.length > 0){ %>
                         <% categories.forEach(function(cat){ %>                
-                            <option value="<%= cat.title %>"><%= cat.title %></option>
+                            <option value="<%= cat.title %>"
+                                <% if(product.category == cat.title ){ %> 
+                                    selected 
+                                <%} %>>
+                                <%= cat.title %>
+                            </option>
                         <% }); %>
                     <% } %>
                 </select>

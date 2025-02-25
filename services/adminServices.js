@@ -90,6 +90,13 @@ const addProduct = async (data) => {
 const getProductID = async (id) => {
     return Product.findById(id)
 }
+const findUpdateProduct = async(id, data) => {
+    return Product.findByIdAndUpdate(id, data )
+}
+
+const getProductUnique = async (id, slug) => {
+    return Product.findOne({_id: {'$ne':id} , slug: slug})
+}
 
 
 
@@ -111,5 +118,7 @@ module.exports = {
     saveProduct,
     getProduct,
     addProduct,
-    getProductID
+    getProductID,
+    findUpdateProduct,
+    getProductUnique
 }
