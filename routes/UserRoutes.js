@@ -1,17 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const adminServices = require('../services/adminServices');
+const userServices = require('../services/userServices');
+const products = require('./userProducts');
 
+
+router.use('/products', products)
 
 router.get('/', async (req, res) => {
-    const products = await adminServices.getProducts();
-    res.render('home', products);
+    const products = await userServices.getProductslimits();
+    res.render('home', {products});
 })
 
 
 
 router.get('/:slug', async (req, res) => {
     try{
+        console.log(req.path)
         const slug = req.params.slug;
         const page = await adminServices.findPage(slug)
         if (!page) {

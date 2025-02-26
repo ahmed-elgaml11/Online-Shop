@@ -82,10 +82,10 @@ module.exports = upload;
 
 
 //ROUTES
-const User = require('./routes/UserRoutes');
+const User = require('./routes/userRoutes');
 const Admin = require('./routes/adminRoutes');
-app.use('/', User)
 app.use('/admin', Admin)
+app.use('/', User)
 
 
 
