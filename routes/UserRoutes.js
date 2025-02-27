@@ -5,7 +5,6 @@ const userServices = require('../services/userServices');
 const products = require('./userProducts');
 
 
-router.use('/products', products)
 
 router.get('/', async (req, res) => {
     const products = await userServices.getProductslimits();
@@ -14,7 +13,7 @@ router.get('/', async (req, res) => {
 
 
 
-router.get('/:slug', async (req, res) => {
+router.get('/page/:slug', async (req, res) => {
     try{
         console.log(req.path)
         const slug = req.params.slug;
@@ -31,6 +30,7 @@ router.get('/:slug', async (req, res) => {
     }
 })
 
+router.use('/products', products)
 
 
 

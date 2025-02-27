@@ -16,7 +16,8 @@ const productSchema = new schema({
 
     },
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
         required: true
     },
     desc: {
@@ -34,6 +35,8 @@ const productSchema = new schema({
     }
 
 })
+
+
 
 productSchema.pre('save', async function(next){
     let newSlug = slugify(this.title, {lower: true, strict: true})

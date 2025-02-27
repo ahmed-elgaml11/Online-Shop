@@ -11,6 +11,8 @@ const multer = require('multer');
 const fs = require('fs');
 const Page = require('./models/pages');
 const Category = require('./models/categories');
+const adminServices = require('./services/adminServices');
+const userServices = require('./services/userServices');
 
 
 
@@ -44,8 +46,8 @@ app.use(flash());
 app.use(async (req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
-  res.locals.pages = await Page.find({});
-  res.locals.categories = await Category.find({});
+  res.locals.pages = await adminServices.getPages();
+  res.locals.categories = await adminServices.getCategories();
   next();
 });
 const storage = multer.diskStorage({
@@ -82,10 +84,10 @@ module.exports = upload;
 
 
 //ROUTES
-const User = require('./routes/userRoutes');
-const Admin = require('./routes/adminRoutes');
-app.use('/admin', Admin)
-app.use('/', User)
+const user = require('./routes/userRoutes');
+const admin = require('./routes/adminRoutes');
+app.use('/admin', admin)
+app.use('/', user)
 
 
 

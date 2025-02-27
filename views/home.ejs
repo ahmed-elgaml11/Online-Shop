@@ -24,7 +24,7 @@
             <div class=" col-md-9 d-flex flex-wrap justify-content-end ms-auto gap-3 py-3">
                 <% products.forEach(function(product, index){ %>
                     <div class="card" style="width: 15rem;">
-                        <a href="/products/<%= product.category %>/<%= product.slug %>">
+                        <a href="/products/<%= product.category.slug %>/<%= product.slug %>">
                         <img src="/uploads/products/<%= product._id %>/<%= product.image %>" 
                              class="card-img-top" 
                              alt="<%= product.title %>"
@@ -33,7 +33,7 @@
                         <div class="card-body text-center">
                             <h6 class="card-title"><%= product.title %></h6>
                             <h5 class="text-success">$ <%= product.price %></h5>
-                            <a href="/products/<%= product.category %>/<%= product.slug %>" class="btn btn-primary btn-sm">View Details</a>
+                            <a href="/products/<%= product.category.slug %>/<%= product.slug %>" class="btn btn-primary btn-sm">View Details</a>
                         </div>
                     </div>
                 <% }) %>

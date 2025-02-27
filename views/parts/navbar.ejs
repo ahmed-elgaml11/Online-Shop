@@ -11,11 +11,21 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <% pages.forEach((page) => { %>
-          <li class="nav-item">
-            <a class="nav-link <%= page.slug === 'home' ? 'active' : '' %>" href="/<%= page.slug === 'home' ? '' : page.slug %>">
-              <%= page.title %>
-            </a>
-          </li>
+          <%  if(page.slug == 'home'){ %>
+            <li class="nav-item">
+              <a class="nav-link " href="/">
+                <%= page.title %>
+              </a>
+            </li>  
+
+            <% } else{ %>
+              <li class="nav-item">
+                <a class="nav-link " href="/page/<%= page.slug %>">
+                  <%= page.title %>
+                </a>
+              </li>
+    
+              <% } %>
         <% }) %>
       </ul>
 

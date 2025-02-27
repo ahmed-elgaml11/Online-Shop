@@ -26,12 +26,13 @@ router.get('/:category', async (req, res) => {
             res.redirect(`/`);
             return;
         }
-        const products = await userServices.getProductsCategory(cat);
+        const products = await userServices.getProductsCategory(category._id);
         res.render('products', {products})
 
     }catch(error){
         console.log(error)
         req.flash('error','there is something wrong in getting the products of this category')
+        res.redirect('/')
         
     }
 })
@@ -40,10 +41,10 @@ router.get('/:category', async (req, res) => {
 
 router.get('/:cat/:slug', async (req, res) => {
     const {cat, slug} = req.params;
-    const product = await adminServices.getProduct(slug);
-    const productCategory = await userServices.getProductsCategory(cat)
+    const product = await userServices.getProductpop(slug);
+    const category = await adminServices.getCategory(cat)
 
-    if(!product || !productCategory ) {
+    if(!product || !category) {
         req.flash('error','this product is not exists')
         res.redirect(`/products/${cat}`);
         return;

@@ -68,14 +68,14 @@ const deleteCategory = async (id) => {
 
 
 const getProducts = async () => {
-    return Product.find({})
+    return Product.find({}).populate('category')
 }
 
 const createProduct = async (data) => {
     return new Product(data)
 }
 const saveProduct = async (product) => {
-    return Product.save()
+    return product.save()
 }
 
 const getProduct = async (slug) => {

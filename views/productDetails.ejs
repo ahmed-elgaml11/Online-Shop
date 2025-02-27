@@ -2,42 +2,44 @@
 <%- include('./parts/navbar') %>
 
 <div class="container py-5">
-    <div class="row">
+    <div class="row align-items-center">
         <!-- Product Image Section -->
         <div class="col-md-6 text-center">
-            <img src="/uploads/products/<%= product._id %>/<%= product.image %>" alt="<%= product.title %>" class="img-fluid rounded shadow">
+            <img src="/uploads/products/<%= product._id %>/<%= product.image %>" 
+                 alt="<%= product.title %>" 
+                 class="img-fluid rounded shadow-lg border">
         </div>
 
         <!-- Product Details Section -->
         <div class="col-md-6">
-            <h1 class="mb-3"><%= product.title %></h1>
-            <p class="text-muted"><%= product.desc %></p>
-            <h3 class="text-primary">$<%= product.price %></h3>
+            <h1 class="mb-3 fw-bold text-dark"><%= product.title %></h1>
+            <h4 class="text-secondary mb-3"><i class="fas fa-tag"></i> <%= product.category.title %></h4>
+            <p class="text-muted fs-5"><%= product.desc %></p>
+            <h2 class="text-success fw-bold">$<%= product.price %></h2>
 
-            <a href="/cart/add/<%= product.slug %>" class="btn btn-success mt-3">
+            <a href="/cart/add/<%= product.slug %>" class="btn btn-lg btn-primary mt-4 px-4">
                 <i class="fas fa-shopping-cart"></i> Add To Cart
             </a>
         </div>
     </div>
 
-    <!-- Gallery Section -->
-<!-- Gallery Section with Fancybox -->
-<% if (galleryImages && galleryImages.length > 0) { %>
-    <h3 class="mt-5">Gallery</h3>
-    <div class="row">
-        <% galleryImages.forEach(function(image, index){ %>
-            <div class="col-6 col-md-4 mb-3">
-                <a href="/uploads/products/<%= product._id %>/gallery/<%= image %>" 
-                   data-fancybox="gallery" 
-                   data-caption="<%= product.title %> - Image <%= index + 1 %>">
-                    <img src="/uploads/products/<%= product._id %>/gallery/<%= image %>" 
-                         alt="Gallery Image" 
-                         class="img-fluid rounded shadow">
-                </a>
-            </div>
-        <% }); %>
-    </div>
-<% } %>
+    <!-- Gallery Section with Fancybox -->
+    <% if (galleryImages && galleryImages.length > 0) { %>
+        <h3 class="mt-5 text-center fw-bold">Product Gallery</h3>
+        <div class="row justify-content-center">
+            <% galleryImages.forEach(function(image, index){ %>
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <a href="/uploads/products/<%= product._id %>/gallery/<%= image %>" 
+                       data-fancybox="gallery" 
+                       data-caption="<%= product.title %> - Image <%= index + 1 %>">
+                        <img src="/uploads/products/<%= product._id %>/gallery/<%= image %>" 
+                             alt="Gallery Image" 
+                             class="img-fluid rounded shadow-lg border">
+                    </a>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
 </div>
 
 <%- include('./parts/footer') %>

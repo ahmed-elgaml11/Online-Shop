@@ -7,13 +7,19 @@ const getProductslimits = async() => {
     return Product.find({})
         .sort({ createdAt: -1 })
         .limit(6)
+        .populate('category')
        
 }
-const getProductsCategory = async(catSlug) => {
-    return Product.find({ category: catSlug })
+const getProductsCategory = async(id) => {
+    return Product.find({ category: id }).populate('category')
+}
+
+const getProductpop = async (slug) => {
+    return Product.findOne({ slug: slug }).populate('category')
 }
 
 module.exports = {
     getProductslimits,
-    getProductsCategory
+    getProductsCategory,
+    getProductpop
 }
