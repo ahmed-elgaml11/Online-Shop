@@ -1,13 +1,15 @@
-<div class="col-md-3 py-3"> <!-- This moves it below the navbar -->
-    <h2>Categories</h2>
-    <div class="list-group w-120">
-      <a href="/products" class="list-group-item list-group-item-action " aria-current="true">
-        All products
+<div class="col-md-3 py-3">
+  <h2 class="mb-4 text-gradient fw-bold">
+    <i class="fas fa-layer-group me-2"></i> Categories
+  </h2>
+  <div class="list-group shadow-lg rounded-4 border-0 overflow-hidden">
+    <a href="/products" class="list-group-item list-group-item-action d-flex align-items-center bg-light all-products">
+      <i class="fas fa-box-open me-3"></i> All Products
+    </a>
+    <% categories.forEach(function(cat) { %>
+      <a href="/products/<%= cat.slug %>" class="list-group-item list-group-item-action d-flex align-items-center bg-light hover-effect category-item">
+        <i class="fas fa-tag text-primary me-3"></i> <%= cat.title %>
       </a>
-      <% categories.forEach(function(cat){ %>
-          <a href="/products/<%= cat.slug %>" class="list-group-item list-group-item-action">
-              <%= cat.title %>
-          </a>
-      <% }) %>
-    </div>
-  </div>  
+    <% }) %>
+  </div>
+</div>

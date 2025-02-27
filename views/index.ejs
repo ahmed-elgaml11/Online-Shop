@@ -1,23 +1,41 @@
-<%- include('./parts/header') %>
+<%- include('./parts/header') %> 
 <%- include('./parts/navbar') %>
-<%- include('./parts/list') %>
 
-<% if (success.length > 0) { %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="fas fa-check-circle"></i> <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
-<% if (error && error.length > 0) { %>
-    <div class="col-md-6 mx-auto">
-        <% error.forEach(function(err) { %>
-            <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
-                <i class="fas fa-exclamation-circle"></i> <%= err.msg || err %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="container py-4">
+    
+    <!-- Success Alert -->
+    <% if (success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show text-center shadow-sm" role="alert">
+            <i class="fas fa-check-circle me-2"></i> <strong>Success:</strong> <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+
+    <!-- Error Alerts -->
+    <% if (error && error.length > 0) { %>
+        <div class="col-md-6 mx-auto">
+            <% error.forEach(function(err) { %>
+                <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> <strong>Error:</strong> <%= err.msg || err %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+
+    <div class="container py-4">
+        <div class="row">
+            <!-- Include Categories List -->
+            <%- include('./parts/list') %>
+    
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <div class="content p-4 shadow-sm bg-white rounded">
+                    <%- page.content %>
+                </div>
             </div>
-        <% }); %>
+        </div>
     </div>
-    <% } %>
-<%- page.content %>
+    </div>
 
 <%- include('./parts/footer') %>

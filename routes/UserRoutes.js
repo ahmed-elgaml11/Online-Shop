@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
 
 router.get('/page/:slug', async (req, res) => {
     try{
-        console.log(req.path)
         const slug = req.params.slug;
         const page = await adminServices.findPage(slug)
         if (!page) {
