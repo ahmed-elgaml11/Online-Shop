@@ -1,22 +1,23 @@
 <%- include('./parts/header') %>
 <%- include('./parts/navbar') %>
 <br>
-<% if (success.length > 0) { %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="fas fa-check-circle"></i> <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
-<% if (error && error.length > 0) { %>
-    <div class="col-md-6 mx-auto">
-        <% error.forEach(function(err) { %>
-            <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
-                <i class="fas fa-exclamation-circle"></i> <%= err.msg || err %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <% }); %>
-    </div>
-<% } %>
+<div class="container mt-4">
+    <% if (success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+    <% if (error && error.length > 0) { %>
+        <div class="col-md-6 mx-auto">
+            <% error.forEach(function(err) { %>
+                <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
+                    <i class="fas fa-exclamation-circle"></i> <%= err.msg || err %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
 
 
 <div class="container row  py-3 ">
@@ -34,13 +35,15 @@
                         <div class="card-body text-center">
                             <h6 class="card-title"><%= product.title %></h6>
                             <h5 class="text-success">$ <%= product.price %></h5>
+                            <a href="/cart/add/<%= product.slug %>" class="btn btn-success btn-sm">Add to Cart</a>
                             <a href="/products/<%= product.category.slug %>/<%= product.slug %>" class="btn btn-primary btn-sm">View Details</a>
                         </div>
                     </div>
                 <% }) %>
             </div>
     
-</div>
+        </div>
+    </div>
 
 
 

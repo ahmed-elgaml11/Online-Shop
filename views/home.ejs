@@ -33,6 +33,7 @@
                         <div class="card-body text-center">
                             <h6 class="card-title"><%= product.title %></h6>
                             <h5 class="text-success">$ <%= product.price %></h5>
+                            <a href="/cart/add/<%= product.slug %>" class="btn btn-success btn-sm">Add to Cart</a>
                             <a href="/products/<%= product.category.slug %>/<%= product.slug %>" class="btn btn-primary btn-sm">View Details</a>
                         </div>
                     </div>

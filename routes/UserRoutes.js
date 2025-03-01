@@ -3,6 +3,7 @@ const router = express.Router();
 const adminServices = require('../services/adminServices');
 const userServices = require('../services/userServices');
 const products = require('./userProducts');
+const cart = require('./userCart');
 
 
 
@@ -30,6 +31,7 @@ router.get('/page/:slug', async (req, res) => {
 })
 
 router.use('/products', products)
+router.use('/cart', cart)
 
 
 
