@@ -52,7 +52,36 @@ router.get('/checkout', (req, res) => {
     res.render('checkout', {cart: req.session.cart})
 })
 
+router.get('/update/:product', (req, res) => {
+    const slug = req.params.product;
+    const action = req.query.action;
+    const cart = req.session.cart;
+    const item = cart.findIndex(item => item.title === slug)
+    if(item != -1){
+        switch (action){
+            case 'inc':
+                cart[item].quantity++;
+                break;
+            case 'dec':
+                cart[item].quantity--;
+                if(cart[item].quantity < 1){
+                    cart.splice(item, 1);
+                }
+                break;
+            case 'clear': 
+                cart.splice(item, 1);
+                if(cart.length < 1) 
+                    delete cart
+                break;
+            default:
+                console.log('there is a problem on updating the cart')    
+                break;
+        }
+    }
+    req.flash('success', 'the cart updated');
+    res.redirect('/cart/checkout')
 
+})
 
 
 

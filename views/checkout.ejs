@@ -48,9 +48,9 @@
                                 <span class="badge bg-primary fs-6"><%= item.quantity %></span>
                             </td>
                             <td>
-                                <a href="/cart/update/<%= item.image %>?action=inc" class="btn btn-success btn-sm">+</a>
-                                <a href="/cart/update/<%= item.image %>?action=dec" class="btn btn-warning btn-sm">-</a>
-                                <a href="/cart/update/<%= item.image %>?action=clear" class="btn btn-danger btn-sm">Clear</a>
+                                <a href="/cart/update/<%= item.title %>?action=inc" class="btn btn-success btn-sm">+</a>
+                                <a href="/cart/update/<%= item.title %>?action=dec" class="btn btn-warning btn-sm">-</a>
+                                <a href="/cart/update/<%= item.title %>?action=clear" class="btn btn-danger btn-sm">Clear</a>
                             </td>
                             <td><strong>$<%= (item.price * item.quantity).toFixed(2) %></strong></td>
                         </tr>
@@ -75,6 +75,17 @@
             <a href="/" class="btn btn-secondary">Continue Shopping</a>
         </div>
     <% } %>
+
+    <script>
+        setTimeout(() => {
+            let alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.classList.add('fade-out');
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 3000);
+    </script>
+        
 
 </div>
 
