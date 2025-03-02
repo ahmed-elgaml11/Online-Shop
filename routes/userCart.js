@@ -23,7 +23,7 @@ const userServices = require('../services/userServices');
         req.session.cart = [];
         }
         let cart = req.session.cart;
-        let existProduct = cart.find(item => item.id === product._id);
+        let existProduct = cart.find(item => item.id === product._id.toString());
         if(existProduct){
             existProduct.quantity++;
         }
@@ -32,8 +32,8 @@ const userServices = require('../services/userServices');
                 title: product.slug,
                 quantity: 1,
                 price: product.price,
-                image: path.join(__dirname, '../public/uploads/products', product._id.toString(), product.image),
-                id: product._id,
+                image: `/uploads/products/${product._id}/${product.image}`,
+                id: product._id.toString(),
             })
         }
         req.flash('success', 'Product added to the cart successfully.');
@@ -48,7 +48,9 @@ const userServices = require('../services/userServices');
 
 
 
-
+router.get('/checkout', (req, res) => {
+    res.render('checkout', {cart: req.session.cart})
+})
 
 
 

@@ -35,8 +35,8 @@
       </form>
 
       <div class="d-flex">
-        <a class="nav-link text-white me-3" href="/cart/checkout">MY Cart (
-          <% if(typeof cart != undefined){ %>
+        <a class="nav-link text-white me-3" href="/cart/checkout">My Cart (
+          <% if(typeof cart != "undefined"){ %>
             <%= cart.length %>
           <% } else{ %>
             0

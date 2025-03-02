@@ -46,7 +46,7 @@ app.use(async (req, res, next) => {
   res.locals.error = req.flash('error');
   res.locals.pages = await adminServices.getPages();
   res.locals.categories = await adminServices.getCategories();
-  res.locals.cart = req.session.cart || [];
+  res.locals.cart = req.session.cart ;
   next();
 });
 const storage = multer.diskStorage({

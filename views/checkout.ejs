@@ -1,0 +1,81 @@
+<%- include('./parts/header') %>
+<%- include('./parts/navbar') %>
+
+<div class="container mt-4">
+
+    <% if (success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+
+    <% if (error && error.length > 0) { %>
+        <div class="col-md-6 mx-auto">
+            <% error.forEach(function(err) { %>
+                <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
+                    <i class="fas fa-exclamation-circle"></i> <%= err.msg || err %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+
+    <h1 class="text-center mb-4">My Cart</h1>
+
+    <% if (cart && cart.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th></th>
+                        <th>Sub Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% cart.forEach(item => { %>
+                        <tr>
+                            <td>
+                                <img src="<%= item.image %>" alt="Product Image" class="img-fluid" style="width: 70px; height: auto;">
+                            </td>
+                            <td><%= item.title %></td>
+                            <td><strong>$<%= item.price %></strong></td>
+                            <td>
+                                <span class="badge bg-primary fs-6"><%= item.quantity %></span>
+                            </td>
+                            <td>
+                                <a href="/cart/update/<%= item.image %>?action=inc" class="btn btn-success btn-sm">+</a>
+                                <a href="/cart/update/<%= item.image %>?action=dec" class="btn btn-warning btn-sm">-</a>
+                                <a href="/cart/update/<%= item.image %>?action=clear" class="btn btn-danger btn-sm">Clear</a>
+                            </td>
+                            <td><strong>$<%= (item.price * item.quantity).toFixed(2) %></strong></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <% let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); %>
+        <div class="text-end">
+            <h3 class="fw-bold">Total: $<%= total.toFixed(2) %></h3>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <a href="/checkout/payment" class="btn btn-primary btn-lg me-3">Buy Now</a>
+            <a href="/cart/clear" class="btn btn-outline-danger btn-lg">Clear Cart</a>
+        </div>
+    
+    <% } else { %>
+        <div class="text-center">
+            <p class="fs-4 text-muted">Your cart is empty.</p>
+            <a href="/" class="btn btn-secondary">Continue Shopping</a>
+        </div>
+    <% } %>
+
+</div>
+
+<%- include('./parts/footer') %>
