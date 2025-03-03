@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require('path');
 const adminServices = require('../services/adminServices');
 const userServices = require('../services/userServices');
+const paypal = require('paypal-rest-sdk');
 
 
 
@@ -49,6 +50,7 @@ const userServices = require('../services/userServices');
 
 
 router.get('/checkout', (req, res) => {
+    console.log(req.session)
     res.render('checkout', {cart: req.session.cart})
 })
 
@@ -89,6 +91,94 @@ router.get('/clear', (req, res) => {
     res.redirect('/cart/checkout')
 
 })
+
+
+
+router.post('/buy', (req, res) => {
+    const cart = req.session.cart.map(item => {
+        return {
+            name: item.title,
+            quantity: item.quantity,
+            price: item.price,
+            currency: "USD",
+            sku: item.id
+            
+        }
+    })
+    let total = req.session.cart.reduce((sum, item) => {
+        return sum + item.price * item.quantity;
+
+    },0)
+    const create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://localhost:5678/cart/success",
+            "cancel_url": "http://localhost:5678/cart/cancel"
+        },
+        "transactions": [{
+            "item_list": {
+                "items": cart
+            },
+            "amount": {
+                "currency": "USD",
+                "total": total
+            },
+            "description": "Hat for the best team ever"
+        }]
+    };
+
+    paypal.payment.create(
+        create_payment_json,
+        function (error, payment) {
+            if (error) {
+                throw error;
+            } else {
+                for (let i = 0; i < payment.links.length; i++) {
+                    if (payment.links[i].rel === 'approval_url') {
+                        res.redirect(payment.links[i].href);
+                    }
+                }
+            }
+        });
+});
+
+router.get('/success', (req, res) => {
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentId;
+    let total = req.session.cart.reduce((sum, item) => {
+        return sum + item.price * item.quantity;
+    },0)
+
+    const execute_payment_json = {
+        "payer_id": payerId,
+        "transactions": [{
+            "amount": {
+                "currency": "USD",
+                "total": total
+            }
+        }]
+    };
+
+    paypal.payment.execute(paymentId,
+        execute_payment_json,
+        function (error, payment) {
+            if (error) {
+                console.log(error.response);
+                throw error;
+            } else {
+                console.log(JSON.stringify(payment));
+                req.flash('success', 'Payment is done successfully');
+                res.send('Success');
+            }
+        });
+});
+
+router.get('/cancel', (req, res) => {
+    res.send('Cancelled')
+});
 
 
 

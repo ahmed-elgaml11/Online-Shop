@@ -11,6 +11,8 @@ const multer = require('multer');
 const fs = require('fs');
 const adminServices = require('./services/adminServices');
 const userServices = require('./services/userServices');
+const paypal = require('paypal-rest-sdk');
+
 
 
 
@@ -75,6 +77,13 @@ const fileFilter = (req, file, cb) => {
   storage: storage,
   fileFilter
 });
+
+paypal.configure({
+  'mode': 'sandbox',  
+  'client_id': process.env.PAYPALID ,
+  'client_secret': process.env.PAYPALSECRET
+});
+
 module.exports = upload;
 
 
