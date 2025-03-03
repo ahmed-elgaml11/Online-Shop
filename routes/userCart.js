@@ -71,7 +71,7 @@ router.get('/update/:product', (req, res) => {
             case 'clear': 
                 cart.splice(item, 1);
                 if(cart.length < 1) 
-                    delete cart
+                    delete req.session.cart;
                 break;
             default:
                 console.log('there is a problem on updating the cart')    
@@ -79,6 +79,13 @@ router.get('/update/:product', (req, res) => {
         }
     }
     req.flash('success', 'the cart updated');
+    res.redirect('/cart/checkout')
+
+})
+
+router.get('/clear', (req, res) => {
+    delete  req.session.cart;
+    req.flash('success', 'the cart cleared');
     res.redirect('/cart/checkout')
 
 })
