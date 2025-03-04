@@ -9,3 +9,37 @@
     transform: scale(1.02);
     transition: all 0.3s ease-in-out;
 }
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+}
+.auth-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+}
+.rounded-top {
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+}
+.bg-black {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+/* Add to your existing CSS */
+.nav-login {
+    color: #ffffff !important; /* Match existing nav text color */
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-login:hover {
+    color: #f8f9fa !important;
+    border-bottom-color: rgba(255,255,255,0.5);
+}

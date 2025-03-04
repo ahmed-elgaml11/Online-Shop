@@ -94,8 +94,11 @@ module.exports = upload;
 //ROUTES
 const user = require('./routes/userRoutes');
 const admin = require('./routes/adminRoutes');
+const authentication = require('./routes/authRoutes');
+
 app.use('/admin', admin)
 app.use('/', user)
+app.use('/', authentication)
 
 
 
