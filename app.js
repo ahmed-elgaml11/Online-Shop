@@ -10,8 +10,8 @@ const flash = require('connect-flash');
 const multer = require('multer');
 const fs = require('fs');
 const adminServices = require('./services/adminServices');
-const userServices = require('./services/userServices');
 const paypal = require('paypal-rest-sdk');
+var MongoDBStore = require('connect-mongodb-session')(session);
 
 
 
@@ -35,12 +35,20 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views')
+var store = new MongoDBStore({
+  uri: process.env.DATABASE,
+  collection: 'mySessions'
+});
+store.on('error', function(error) {
+  console.log(error);
+});
 app.use(cookieParser('cookieSecret'));
 app.use(session({
-  secret: 'secretkey',
+  secret: 'secretkey(%)',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 1000*60*60*24*30 }, // month
+  store: store,
  }));
 app.use(flash());
 app.use(async (req, res, next) => {
@@ -49,6 +57,7 @@ app.use(async (req, res, next) => {
   res.locals.pages = await adminServices.getPages();
   res.locals.categories = await adminServices.getCategories();
   res.locals.cart = req.session.cart ;
+  res.locals.user = req.session.user ;
   next();
 });
 const storage = multer.diskStorage({
