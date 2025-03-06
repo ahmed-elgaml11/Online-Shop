@@ -44,11 +44,15 @@
 
           )</a>
           <% if(user){ %>
-        <a class="nav-link text-white me-3" href="/logout">Hi, <%= user.username %> LogOut</a>
-          <% } else{ %>
-            <a class="nav-link text-white me-3" href="/signup">Register</a>
-            <a class="nav-link text-white" href="/login">Log In</a>
-    
+        <a class="nav-link text-white me-3" href="/user/logout">Hi, <%= user.username %> (LogOut)</a>
+
+              <%if( user.admin == true){ %>
+              <a class="nav-link text-white me-3" href="/admin/pages">Admin Area</a>
+              <%}%>
+
+      <% } else{ %>
+            <a class="nav-link text-white me-3" href="/user/signup">Register</a>
+            <a class="nav-link text-white" href="/user/login">Log In</a>
           <% } %>
 
       </div>

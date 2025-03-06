@@ -107,7 +107,7 @@ const authentication = require('./routes/authRoutes');
 
 app.use('/admin', admin)
 app.use('/', user)
-app.use('/', authentication)
+app.use('/user', authentication)
 
 
 

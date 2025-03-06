@@ -1,10 +1,12 @@
 const express = require ('express');
 const router = express.Router();
 const authServices = require('../services/authServices')
-const userSchema = require('../schema/userSchema');
 const validateUser = require('../midlewares/validateUser');
 const bcrypt = require('bcrypt');
+const {isAuthenticated, isAdmin} = require('../midlewares/permissions')
 
+
+// /user
 router.get('/signup', async (req, res) => {
     const data = {
         username: '',
@@ -30,7 +32,7 @@ router.post('/signup', validateUser.validateUserSchema, async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10)
         await authServices.addUser(username, email, hashedPassword);
         req.flash('success', 'your account has been created successfully');
-        res.redirect('/login')
+        res.redirect('/user/login')
     }
     catch(error){
         console.log(error);
@@ -45,7 +47,7 @@ router.get('/login', async (req, res) => {
         return;
     }
     const data = {
-        username: '',
+        email: '',
         password: '',
     }
     res.render('auth/login', { data })
@@ -64,16 +66,16 @@ router.post('/login',validateUser.validatLoginSchem,  async (req, res) => {
         const existUser = await authServices.checkEmail(email);
         if (!existUser){
             req.flash('error', 'this email is not registered');
-            res.redirect('/login');
+            res.redirect('/user/login');
             return;
         }
         const same = await bcrypt.compare(password, existUser.password )
         if(!same){
             req.flash('error', 'incorrect password');
-            res.redirect('/login');
+            res.redirect('/user/login');
             return;
         }
-        req.session.user = existUser._id;
+        req.session.user = existUser;
         req.flash('success', 'you are logged in successfully');
         res.redirect('/')
 
@@ -85,6 +87,18 @@ router.post('/login',validateUser.validatLoginSchem,  async (req, res) => {
 
 })
 
+router.get('/logout', isAuthenticated, async (req, res) => {
+    req.session.destroy((err) => {
+        if(err){
+            console.log(err);
+            req.flash('error', 'there is something wrong with logout');
+            res.redirect('/')
+        }
+        res.clearCookie('connect.sid');
+        res.redirect('/user/login');
+        
+    })
 
+})
 
 module.exports = router;

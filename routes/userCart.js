@@ -4,15 +4,18 @@ const path = require('path');
 const adminServices = require('../services/adminServices');
 const userServices = require('../services/userServices');
 const paypal = require('paypal-rest-sdk');
+const {isAuthenticated, isAdmin} = require('../midlewares/permissions')
 
 
 
  // cart 
- router.get('/add/:proSlug', async (req, res) => {
+ router.get('/add/:proSlug', isAuthenticated, async (req, res) => {
      // get the product from db
      // check if the product is in the cart
      // if yes, increase the quantity
      // if not, add the product to the cart
+
+        
      const slug = req.params.proSlug
      try{
         const product = await adminServices.getProduct(slug);
@@ -38,7 +41,7 @@ const paypal = require('paypal-rest-sdk');
             })
         }
         req.flash('success', 'Product added to the cart successfully.');
-        res.redirect(req.get('Referer') || '/');
+        res.redirect('/');
     }
      catch(err){
          console.log(err);
@@ -50,11 +53,10 @@ const paypal = require('paypal-rest-sdk');
 
 
 router.get('/checkout', (req, res) => {
-    console.log(req.session)
     res.render('checkout', {cart: req.session.cart})
 })
 
-router.get('/update/:product', (req, res) => {
+router.get('/update/:product', isAuthenticated, (req, res) => {
     const slug = req.params.product;
     const action = req.query.action;
     const cart = req.session.cart;
@@ -85,7 +87,7 @@ router.get('/update/:product', (req, res) => {
 
 })
 
-router.get('/clear', (req, res) => {
+router.get('/clear', isAuthenticated, (req, res) => {
     delete  req.session.cart;
     req.flash('success', 'the cart cleared');
     res.redirect('/cart/checkout')
@@ -94,7 +96,7 @@ router.get('/clear', (req, res) => {
 
 
 
-router.post('/buy', (req, res) => {
+router.post('/buy',isAuthenticated, (req, res) => {
     const cart = req.session.cart.map(item => {
         return {
             name: item.title,
