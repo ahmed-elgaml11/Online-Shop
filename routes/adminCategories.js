@@ -6,17 +6,19 @@ const categorySchema = require('../schema/categorySchema');
 const validateCategory = require('../midlewares/validateCategory');
  const validateUpdatedCategory = require('../midlewares/validateUpdatedCat');
 const slugify = require('slugify');
+const { isAdmin} = require('../midlewares/permissions')
 
-router.get('/', async (req, res) => {
+
+router.get('/', isAdmin, async (req, res) => {
     const categories = await adminServices.getCategories();
     res.render('admin/categories',{categories});
 })
 
-router.get('/add-category', async (req, res) => {
+router.get('/add-category', isAdmin, async (req, res) => {
     res.render('admin/add-category')
 })
 
-router.post('/add-category', categorySchema, validateCategory, async (req, res) => {
+router.post('/add-category', isAdmin, categorySchema, validateCategory, async (req, res) => {
     const {title} = req.body;
     const slug = slugify(title, {lower: true, strict: true})
     try{
@@ -42,7 +44,7 @@ router.post('/add-category', categorySchema, validateCategory, async (req, res) 
 
 
 
-router.get('/edit-category/:slug', async (req, res) => {
+router.get('/edit-category/:slug', isAdmin, async (req, res) => {
     const slug = req.params.slug;
     // get the category from the db then render it into the edit-category page 
     try{
@@ -108,7 +110,7 @@ router.post('/edit-category/:slug', categorySchema, validateUpdatedCategory, asy
 })
 
 
-router.post('/delete-category/:id', async (req, res) => {
+router.post('/delete-category/:id', isAdmin, async (req, res) => {
     const id = req.params.id;
     try{
         const deletedCategory =  await adminServices.deleteCategory(id);

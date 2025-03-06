@@ -3,7 +3,7 @@ const router = express.Router();
 const authServices = require('../services/authServices')
 const validateUser = require('../midlewares/validateUser');
 const bcrypt = require('bcrypt');
-const {isAuthenticated, isAdmin} = require('../midlewares/permissions')
+const {isAuthenticated} = require('../midlewares/permissions')
 
 
 // /user

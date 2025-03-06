@@ -6,22 +6,23 @@ const ValidateUpdatedPage = require('../midlewares/validateUpdatedPage');
 const adminservices= require('../services/adminServices') 
 const categories = require('./adminCategories')
 const products = require('./adminProducts')
+const { isAdmin} = require('../midlewares/permissions')
 
 
 
 const router = express.Router();
 
-router.get('/pages' ,async  (req, res) => {
+router.get('/pages', isAdmin, async  (req, res) => {
     const allPages = await adminservices.getPages();
     res.render('admin/pages',{pages: allPages})
 })
 
-router.get('/add-page', (req, res) => {
+router.get('/add-page', isAdmin, (req, res) => {
     res.render('admin/add-page')
 })
 
 
-router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
+router.post('/add-page',isAdmin, PageSchema, ValidatePageSchema, async (req, res) => {
 
     let data = {
         title: req.body.title,
@@ -39,7 +40,7 @@ router.post('/add-page', PageSchema, ValidatePageSchema, async (req, res) => {
     }
 })
 
-router.get('/edit-page/:slug', async (req, res) => {
+router.get('/edit-page/:slug', isAdmin, async (req, res) => {
     const slug = req.params.slug;
     try{
         const page = await adminservices.findPage(slug);
@@ -90,7 +91,7 @@ router.post('/edit-page/:slug', PageSchema, ValidateUpdatedPage, async (req, res
 })
 
 
-router.post('/delete-page/:id', async (req, res) => {
+router.post('/delete-page/:id',isAdmin, async (req, res) => {
     const id = req.params.id
     try {
         const page = await adminservices.deletePage(id);

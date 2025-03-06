@@ -11,7 +11,7 @@ const isAdmin = (req, res, next) => {
         return next();
     }
     req.flash('error', 'You must be an admin to access this page.');
-    res.redirect('/');
+    res.redirect('/user/login');
 }
 
 module.exports = {

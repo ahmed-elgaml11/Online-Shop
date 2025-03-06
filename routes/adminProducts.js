@@ -8,25 +8,26 @@ const upload = require('../app')
 const slugify = require('slugify');
 const fs = require('fs');
 const path = require('path');
+const { isAdmin} = require('../midlewares/permissions')
 
 
 // admin/product
 
 
-router.get('/', async (req, res) => {
+router.get('/', isAdmin, async (req, res) => {
     const allProducts = await adminServices.getProducts();
     res.render('admin/products',{products: allProducts})
 })
 
 
-router.get('/add-product', async (req, res) => {
+router.get('/add-product', isAdmin, async (req, res) => {
     const categories = await adminServices.getCategories();
     const title = "", price= "", image ="", desc="", category=""; 
     const product = {title, price, image, desc, category}
     res.render('admin/add-product',{product, categories})
 })
 
-router.post('/add-product', upload.single('image'), productSchema, validateProductSchema, async (req, res) => {
+router.post('/add-product', isAdmin, upload.single('image'), productSchema, validateProductSchema, async (req, res) => {
     console.log(req.file);
     const {title, category, desc, price} = req.body;
     const image = req.file? req.file.filename : "";  
@@ -59,7 +60,7 @@ router.post('/add-product', upload.single('image'), productSchema, validateProdu
     }
 })
 
-router.get('/edit-product/:id', async (req, res) => {
+router.get('/edit-product/:id', isAdmin, async (req, res) => {
     // find the product then render it 
     const id = req.params.id;
     try{
@@ -164,7 +165,7 @@ router.post('/edit-product/:id/gallery',upload.array('galleryImages'), (req, res
         res.status(500).redirect(`/admin/product/edit-product/${id}`);
     }
 })
-router.get('/delete-gallery-image/:id/:image', async (req, res) => {
+router.get('/delete-gallery-image/:id/:image', isAdmin,  async (req, res) => {
     const {id, image} = req.params;
     const galleryPath = path.join(__dirname,'../public/uploads', 'products', id, 'gallery', image)
     if(fs.existsSync(galleryPath)){
@@ -178,7 +179,7 @@ router.get('/delete-gallery-image/:id/:image', async (req, res) => {
 
 })
 
-router.post('/delete-product/:id', async (req, res) => {
+router.post('/delete-product/:id', isAdmin, async (req, res) => {
     const id = req.params.id;
     try{
         const existingProduct = await adminServices.getProductID(id);
