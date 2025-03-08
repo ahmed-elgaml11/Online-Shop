@@ -1,41 +1,37 @@
 <body>
-    <nav class="navbar navbar-expand-md bg-dark border-bottom border-body" data-bs-theme="dark">
-      <div class="container">
-          <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="/">Shopping Cart</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/admin/pages">Pages</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/admin/category/">Categories</a>
+  <nav class="navbar navbar-expand-md bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Left-aligned items -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Shopping Cart</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/pages">Pages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/category/">Categories</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/admin/product/">Products</a>
-          </li>
-          <% if(user){ %>
-            <a class="nav-link text-white me-3" href="/user/logout">Hi, <%= user.username %> (LogOut)</a>
-    
-                  <%if( user.admin == true){ %>
-                  <a class="nav-link text-white me-3" href="/admin/pages">Admin Area</a>
-                  <%}%>
-    
-          <% } else{ %>
-                <a class="nav-link text-white me-3" href="/user/signup">Register</a>
-                <a class="nav-link text-white" href="/user/login">Log In</a>
-              <% } %>
-    
-    
-        </ul>
-            </div>
-          </div>
+            </li>
+          </ul>
+
+          <!-- Right-aligned user info -->
+          <ul class="navbar-nav ms-auto">
+            <% if(user){ %>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/user/logout">Hi, <%= user.username %> (LogOut)</a>
+              </li>
+            <% } %>
+          </ul>
         </div>
-        </nav>
-      
-  
+      </div>
+    </div>
+  </nav>
+</body>

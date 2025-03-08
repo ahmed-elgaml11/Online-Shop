@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 const adminServices = require('../services/adminServices');
 const categorySchema = require('../schema/categorySchema');
-const validateCategory = require('../midlewares/validateCategory');
- const validateUpdatedCategory = require('../midlewares/validateUpdatedCat');
+const validateCategory = require('../midllewares/validateCategory');
+ const validateUpdatedCategory = require('../midllewares/validateUpdatedCat');
 const slugify = require('slugify');
-const { isAdmin} = require('../midlewares/permissions')
+const { isAdmin} = require('../midllewares/permissions')
 
 
 router.get('/', isAdmin, async (req, res) => {

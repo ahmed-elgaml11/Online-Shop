@@ -5,23 +5,30 @@
 <br> 
 <!-- Success Alert --> <div class="container mt-4">
 
-<% if (success.length > 0) { %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="fas fa-check-circle"></i> <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
-<% if (error && error.length > 0) { %>
+    <% if (success.length > 0) { %>
+        <div class="d-flex justify-content-center">
+            <div class="alert alert-success alert-dismissible fade show text-center w-50" role="alert">
+                <i class="fas fa-check-circle"></i> <%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    <% } %>
+    
+    
+    
+    <% if (error && error.length > 0) { %>
     <div class="col-md-6 mx-auto">
         <% error.forEach(function(err) { %>
+            <div class="d-flex justify-content-center">
             <div class="alert alert-danger alert-dismissible fade show text-center shadow-sm" role="alert">
                 <i class="fas fa-exclamation-circle"></i> <%= err.msg || err %>
-                <br>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             </div>
         <% }); %>
     </div>
-<% } %>
+    <% } %>
+    
 </div>
 <div class="main-content">
     <div class="container">

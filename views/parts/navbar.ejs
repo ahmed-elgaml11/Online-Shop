@@ -45,8 +45,7 @@
           )</a>
           <% if(user){ %>
         <a class="nav-link text-white me-3" href="/user/logout">Hi, <%= user.username %> (LogOut)</a>
-
-              <%if( user.admin == true){ %>
+              <%if(user.admin ){ %>
               <a class="nav-link text-white me-3" href="/admin/pages">Admin Area</a>
               <%}%>
 

@@ -9,9 +9,10 @@ const isAuthenticated = (req, res, next) => {
 const isAdmin = (req, res, next) => {
     if (req.session.user && req.session.user.admin === true ) {
         return next();
+         
     }
     req.flash('error', 'You must be an admin to access this page.');
-    res.redirect('/user/login');
+    return res.redirect('/user/login');
 }
 
 module.exports = {

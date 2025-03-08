@@ -1,12 +1,12 @@
 // /admin
 const express = require('express');
 const PageSchema = require('../schema/pageSchema');
-const ValidatePageSchema= require('../midlewares/validatePage');
-const ValidateUpdatedPage = require('../midlewares/validateUpdatedPage');
+const ValidatePageSchema= require('../midllewares/validatePage');
+const ValidateUpdatedPage = require('../midllewares/validateUpdatedPage');
 const adminservices= require('../services/adminServices') 
 const categories = require('./adminCategories')
 const products = require('./adminProducts')
-const { isAdmin} = require('../midlewares/permissions')
+const { isAdmin} = require('../midllewares/permissions')
 
 
 

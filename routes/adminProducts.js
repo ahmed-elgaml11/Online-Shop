@@ -3,12 +3,12 @@ const express = require('express');
 const router = express.Router();
 const adminServices = require('../services/adminServices');
 const productSchema = require('../schema/productSchema');
-const {validateProductSchema, validateUpdatedProduct} = require('../midlewares/validateProduct')
+const {validateProductSchema, validateUpdatedProduct} = require('../midllewares/validateProduct')
 const upload = require('../app')
 const slugify = require('slugify');
 const fs = require('fs');
 const path = require('path');
-const { isAdmin} = require('../midlewares/permissions')
+const { isAdmin} = require('../midllewares/permissions')
 
 
 // admin/product
@@ -50,7 +50,9 @@ router.post('/add-product', isAdmin, upload.single('image'), productSchema, vali
             req.file.path = newPath;
         }
         req.flash('success', 'Product added successfully');
-        res.redirect('/admin/product');
+        req.session.save(() => {
+            res.redirect('/admin/product');
+        });
     }catch(error){
         if (req.file) {
             await fs.promises.unlink(path.join(__dirname, '../public', 'uploads', 'temp', req.file.filename));

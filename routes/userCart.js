@@ -4,7 +4,7 @@ const path = require('path');
 const adminServices = require('../services/adminServices');
 const userServices = require('../services/userServices');
 const paypal = require('paypal-rest-sdk');
-const {isAuthenticated, isAdmin} = require('../midlewares/permissions')
+const {isAuthenticated, isAdmin} = require('../midllewares/permissions')
 
 
 
@@ -41,7 +41,7 @@ const {isAuthenticated, isAdmin} = require('../midlewares/permissions')
             })
         }
         req.flash('success', 'Product added to the cart successfully.');
-        res.redirect('/');
+        res.redirect(req.get('Referer') || '/');
     }
      catch(err){
          console.log(err);

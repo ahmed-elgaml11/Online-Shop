@@ -1,9 +1,9 @@
 const express = require ('express');
 const router = express.Router();
 const authServices = require('../services/authServices')
-const validateUser = require('../midlewares/validateUser');
+const validateUser = require('../midllewares/validateUser');
 const bcrypt = require('bcrypt');
-const {isAuthenticated} = require('../midlewares/permissions')
+const {isAuthenticated} = require('../midllewares/permissions')
 
 
 // /user
