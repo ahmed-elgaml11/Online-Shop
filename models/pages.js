@@ -10,6 +10,7 @@ const pageSchema = new Schema({
     slug: {
         type: String,
         unique: true,
+        
         index: true
     },
     content: {

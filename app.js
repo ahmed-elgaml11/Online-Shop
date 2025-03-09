@@ -7,10 +7,8 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');  
-const multer = require('multer');
-const fs = require('fs');
-const adminServices = require('./services/adminServices');
-const paypal = require('paypal-rest-sdk');
+const pageServices = require('./services/pageServices');
+const categoryServices = require('./services/categoryServices');
 var MongoDBStore = require('connect-mongodb-session')(session);
 
 
@@ -54,46 +52,14 @@ app.use(flash());
 app.use(async (req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
-  res.locals.pages = await adminServices.getPages();
-  res.locals.categories = await adminServices.getCategories();
+  res.locals.pages = await pageServices.getPages();
+  res.locals.categories = await categoryServices.getCategories();
   res.locals.cart = req.session.cart ;
   res.locals.user = req.session.user ;
   next();
 });
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // temporary folder
-    const tempPath = path.join(__dirname, 'public', 'uploads', 'temp');
-    fs.mkdirSync(tempPath, {recursive: true});
-    cb(null, tempPath)
 
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  }
 
-});
-const fileFilter = (req, file, cb) => {
-    if(!file){
-      return cb(null, true);
-    }
-    if (!file.mimetype || !file.mimetype.startsWith('image/')) {
-      return cb(new Error("Only images are allowed!"), false);
-    }
-    cb(null, true);
-};
- const upload = multer({
-  storage: storage,
-  fileFilter
-});
-
-paypal.configure({
-  'mode': 'sandbox',  
-  'client_id': process.env.PAYPALID ,
-  'client_secret': process.env.PAYPALSECRET
-});
-
-module.exports = upload;
 
 
 
@@ -118,7 +84,7 @@ app.use('/user', authentication)
 
 
 // LISTENING
-const port = process.env.PORT;
+const port = process.env.PORT || 5678;
 app.listen(port, () => {
     console.log(`Server running at port ${port}`);
 })  

@@ -1,9 +1,6 @@
 const express =require('express')
 const router = express.Router();
-const adminServices = require('../services/adminServices');
-const userServices = require('../services/userServices');
-const fs = require('fs');
-const path = require('path');
+const userControllers = require('../controllers/userControllers')
 
 
 
@@ -11,51 +8,13 @@ const path = require('path');
 
 
 
-router.get('/', async (req, res) => {
-    const allProducts = await adminServices.getProducts();
-    res.render('products', { products: allProducts });
+router.get('/', userControllers.getAllProducts)
 
-}) 
-
-router.get('/:category', async (req, res) => {
-    const cat = req.params.category;
-    try{
-        const category = await adminServices.getCategory(cat);
-        if(!category) {
-            req.flash('error','this category is not exists')
-            res.redirect(`/`);
-            return;
-        }
-        const products = await userServices.getProductsCategory(category._id);
-        res.render('products', {products})
-
-    }catch(error){
-        console.log(error)
-        req.flash('error','there is something wrong in getting the products of this category')
-        res.redirect('/')
-        
-    }
-})
+router.get('/:category', userControllers.getProductsCategory)
 
 
 
-router.get('/:cat/:slug', async (req, res) => {
-    const {cat, slug} = req.params;
-    const product = await userServices.getProductpop(slug);
-    const category = await adminServices.getCategory(cat)
-
-    if(!product || !category) {
-        req.flash('error','this product is not exists')
-        res.redirect(`/products/${cat}`);
-        return;
-    }
-    const galleryPath = path.join(__dirname, '../public/uploads/products', product._id.toString(), 'gallery')
-    const galleryImages = fs.existsSync(galleryPath) ? fs.readdirSync(galleryPath) : [];
-    res.render('productDetails', { product , galleryImages })
-
-})
-
-
+router.get('/:cat/:slug', userControllers.getProductDetails)
 
 
 
