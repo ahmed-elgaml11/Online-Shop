@@ -6,15 +6,13 @@ const fs = require('fs');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       // temporary folder
-    const tempPath = path.join(__dirname, 'public', 'uploads', 'temp');
-    fs.mkdirSync(tempPath, {recursive: true});
-    cb(null, tempPath)
-
+        const tempPath = path.join(__dirname, 'public', 'uploads', 'temp');
+        fs.mkdirSync(tempPath, {recursive: true});
+        cb(null, tempPath)
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
     }
-
 });
 const fileFilter = (req, file, cb) => {
     if(!file){
