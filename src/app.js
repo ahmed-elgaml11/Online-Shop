@@ -2,7 +2,7 @@
 const express =require('express');
 const path =require('path');
 const dotenv = require('dotenv');
-dotenv.config({path: path.join(__dirname, './config.env')})
+dotenv.config({path: path.join(__dirname, '../config.env')})
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -30,7 +30,7 @@ async function main() {
 const app =express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views')
 var store = new MongoDBStore({
