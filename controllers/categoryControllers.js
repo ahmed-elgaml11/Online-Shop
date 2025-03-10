@@ -57,7 +57,7 @@ exports.getEditCategory = async (req, res) => {
 exports.postEditCategory = async (req, res) => {
     const slug = req.params.slug;
     let title = req.body.title;
-    const newSlug = slugify( req.body.title, {lower: true, strict: true})
+    const newSlug = slugify( title, {lower: true, strict: true})
     // update the category in the db then redirect to the category page
     try{
         const existCategoy = await categoryServices.getCategory(slug)
@@ -90,6 +90,7 @@ exports.postEditCategory = async (req, res) => {
         console.log(error)
         if(error.code == 11000){
             req.flash('error','this category is already exists')
+            return res.redirect(`/admin/category/edit-category/${slug}`)
         }
 
         req.flash('error', 'there is something wrong in updating this category');
@@ -114,6 +115,5 @@ exports.deleteCategory = async (req, res) => {
     catch(error){
         req.flash('there is something wrong with deleting the page')
         res.redirect('/admin/category/')
-
     }
 }
