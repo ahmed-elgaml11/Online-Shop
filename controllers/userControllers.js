@@ -28,6 +28,8 @@ exports.getPage = async (req, res) => {
 }
 
 
+
+
 // /product
 exports.getAllProducts = async (req, res) => {
     const allProducts = await productServices.getProducts();
@@ -170,7 +172,6 @@ exports.buy = async (req, res) => {
             price: item.price,
             currency: "USD",
             sku: item.id
-            
         }
     })
     let total = req.session.cart.reduce((sum, item) => {
@@ -214,7 +215,6 @@ exports.buy = async (req, res) => {
 
 }
 
-
 exports.success = async (req, res) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
@@ -241,11 +241,13 @@ exports.success = async (req, res) => {
             } else {
                 console.log(JSON.stringify(payment));
                 req.flash('success', 'Payment is done successfully');
-                res.send('Success');
+                delete req.session.cart
+                res.redirect('/cart/checkout');
             }
         });
 }
 exports.cancel = async (req, res) => {
-    res.send('Cancelled')
+    req.flash('error', 'there is something wrong during the payment ');
+    res.redirect('/cart/checkout');
 }
 
