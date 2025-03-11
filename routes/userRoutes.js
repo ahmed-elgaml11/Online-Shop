@@ -13,6 +13,8 @@ router.get('/', userControllers.getHome)
 router.get('/page/:slug', userControllers.getPage)
 
 
+router.get('/search', userControllers.search)
+
 
 router.use('/products', products)
 router.use('/cart', cart)

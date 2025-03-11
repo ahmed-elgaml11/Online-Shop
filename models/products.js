@@ -52,5 +52,13 @@ productSchema.pre('save', async function(next){
     next();
 })
 
+productSchema.index(
+    { title: 'text', desc: 'text', slug: 'text' },
+    { name: 'product_text_index' }  
+);
 const Product = mongoose.model('Product', productSchema);
+
+Product.ensureIndexes().catch(err => {
+    console.error('Index creation failed:', err);
+  });
 module.exports = Product;

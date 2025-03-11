@@ -49,7 +49,9 @@ const getProductsCategory = async(id) => {
 const getProductpop = async (slug) => {
     return Product.findOne({ slug: slug }).populate('category')
 }
-
+const getProductSearch = async (searchQuery) => {
+    return Product.findOne({ $text: { $search: searchQuery } }).populate('category');
+};
 
 module.exports = {
     getProducts,
@@ -63,5 +65,6 @@ module.exports = {
     deleteProduct,
     getProductslimits,
     getProductsCategory,
-    getProductpop
+    getProductpop,
+    getProductSearch
 }

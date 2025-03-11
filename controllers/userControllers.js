@@ -251,3 +251,28 @@ exports.cancel = async (req, res) => {
     res.redirect('/cart/checkout');
 }
 
+exports.search = async (req, res) => {
+    try {
+        const searchQuery = req.query.q;
+        
+        if (!searchQuery) {
+            return res.redirect('/'); 
+        }
+        
+        const product = await productServices.getProductSearch(searchQuery);
+        if (!product ) {
+            req.flash('error', 'No products found');
+            return res.redirect('/');
+        }
+
+        const galleryPath = path.join(__dirname, '../public/uploads/products', product._id.toString(), 'gallery')
+        const galleryImages = fs.existsSync(galleryPath) ? fs.readdirSync(galleryPath) : [];
+    
+        res.render('productDetails', { product, galleryImages})
+        
+    } catch (error) {
+        console.error(error);
+        res.redirect('/');
+    }
+};
+    
