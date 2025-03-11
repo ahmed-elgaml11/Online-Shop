@@ -40,9 +40,9 @@ var store = new MongoDBStore({
 store.on('error', function(error) {
   console.log(error);
 });
-app.use(cookieParser('cookieSecret'));
+app.use(cookieParser(process.env.COOKIE));
 app.use(session({
-  secret: 'secretkey(%)',
+  secret: process.env.SESSION,
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 1000*60*60*24*30 }, // month
