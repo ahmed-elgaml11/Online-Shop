@@ -25,6 +25,8 @@ router.post('/edit-product/:id', upload.single('image'), productSchema, validate
 
 router.get('/delete-gallery-image/:id/:image', isAdmin,  productControllers.deleteGallery );
 
+router.post('/edit-product/:id/gallery', isAdmin, upload.array('galleryImages', 10), productControllers.addGallery )
+
 router.post('/delete-product/:id', isAdmin, productControllers.deleteProduct)
 
 module.exports = router

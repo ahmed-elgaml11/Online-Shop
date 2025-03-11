@@ -134,6 +134,32 @@ const {title, category, desc, price, deleteImage} = req.body;
     }
 }
 
+exports.addGallery = async (req, res) => {
+    const id = req.params.id;
+    try{
+        const existingProduct =  await productServices.getProductID(id);
+        if(!existingProduct){
+            req.flash('error', 'this product is not exists')
+            return  res.redirect(`/admin/product/edit-product/${id}`)
+        }
+        if(req.files && req.files.length > 0){
+            const galleryDir = path.join(__dirname, '../public/uploads/products', id, 'gallery')
+            await fs.promises.mkdir(galleryDir, { recursive: true });
+            req.files.forEach(file => {
+                const newPath = path.join(galleryDir, file.filename);
+                fs.renameSync(file.path, newPath);
+            });    
+        }
+        req.flash('success', 'Gallery images uploaded successfully');
+        res.redirect(`/admin/product/edit-product/${id}`);
+    }
+    catch(err){
+        console.log(error)
+        req.flash('error', 'there is something wrong in getting this product')
+        res.redirect(`/admin/product/edit-product/${id}`)
+    }
+}
+
 exports.deleteGallery = async(req, res) => {
     const {id, image} = req.params;
     const galleryPath = path.join(__dirname,'../public/uploads', 'products', id, 'gallery', image)
