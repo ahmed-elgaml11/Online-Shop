@@ -154,7 +154,10 @@ exports.getUpdateProduct = async(req, res) => {
         }
     }
     req.flash('success', 'the cart updated');
-    res.redirect('/cart/checkout')
+    req.session.save(() => {
+        res.redirect('/cart/checkout')
+    })
+
 
 }
 
@@ -240,9 +243,11 @@ exports.success = async (req, res) => {
                 throw error;
             } else {
                 console.log(JSON.stringify(payment));
-                req.flash('success', 'Payment is done successfully');
                 delete req.session.cart
-                res.redirect('/cart/checkout');
+                req.flash('success', 'Payment is done successfully');
+                req.session.save(() => {
+                    res.redirect('/cart/checkout');
+                })
             }
         });
 }

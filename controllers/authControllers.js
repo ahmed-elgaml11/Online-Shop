@@ -28,7 +28,9 @@ exports.postSignUp = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10)
         await authServices.addUser(username, email, hashedPassword);
         req.flash('success', 'your account has been created successfully');
-        res.redirect('/user/login')
+        req.session.save(() => {
+            res.redirect('/user/login')
+        })
     }
     catch(error){
         console.log(error);
@@ -70,7 +72,10 @@ exports.postLogin = async (req, res) => {
         }
         req.session.user = existUser;
         req.flash('success', 'you are logged in successfully');
-        res.redirect('/')
+        req.session.save(() => {
+            res.redirect('/')
+
+        })
 
     }catch(err){
         console.log(err);
